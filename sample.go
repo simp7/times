@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"times/gadget"
-	"times/gadget/stopwatch"
-	"times/gadget/timer"
-	"times/model/tobject"
+	"github.com/simp7/times/gadget"
+	"github.com/simp7/times/gadget/stopwatch"
+	"github.com/simp7/times/gadget/timer"
+	"github.com/simp7/times/model/tobject"
 )
 
 func getStandard() tobject.Time {

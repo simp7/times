@@ -1,0 +1,12 @@
+package timer
+
+import (
+"times/model/formatter"
+"times/model/tobject"
+)
+
+var (
+	Standard = func(t tobject.Time) Timer {return New(tobject.Sec, formatter.Standard(), t)}
+	Hangul = func(t tobject.Time) Timer {return New(tobject.Sec, formatter.Hangul(), t)}
+	Detail = func(t tobject.Time) Timer {return New(tobject.Ms, formatter.Detail(), t)}
+)

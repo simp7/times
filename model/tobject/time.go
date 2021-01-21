@@ -10,4 +10,9 @@ type Time interface {
 	Hour() int
 	Day() int
 	Equal(Time) bool
+	SetMilliSecond(int) Time
+	SetSecond(int) Time
+	SetMinute(int) Time
+	SetHour(int) Time
+	SetDay(int) Time
 }

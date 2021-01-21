@@ -8,7 +8,7 @@ type accurate struct {
 func Accurate(millisecond int, second, minute, hour int8, day int) Time {
 
 	a := new(accurate)
-	a.Time= Standard(second, minute, hour, day)
+	a.Time = Standard(second, minute, hour, day)
 	a.ms = millisecond
 	a.trim()
 
@@ -16,20 +16,24 @@ func Accurate(millisecond int, second, minute, hour int8, day int) Time {
 
 }
 
+func AccurateZero() Time {
+	return Accurate(0, 0, 0, 0, 0)
+}
+
 func (t *accurate) Tick() {
-	t.ms ++
+	t.ms++
 	t.trim()
 }
 
 func (t *accurate) Rewind() {
-	t.ms --
+	t.ms--
 	t.trim()
 }
 
 func (t *accurate) trim() {
 
 	if t.MilliSecond() >= 1000 {
-		for i := 0; i < t.MilliSecond()/1000; i ++ {
+		for i := 0; i < t.MilliSecond()/1000; i++ {
 			t.Time.Tick()
 		}
 		t.ms %= 1000
@@ -48,4 +52,9 @@ func (t *accurate) MilliSecond() int {
 
 func (t *accurate) Equal(another Time) bool {
 	return t.Day() == another.Day() && t.Hour() == another.Hour() && t.Minute() == another.Minute() && t.Second() == another.Second() && t.MilliSecond() == another.MilliSecond()
+}
+
+func (t *accurate) SetMilliSecond(ms int) Time {
+	t.ms = ms
+	return t
 }

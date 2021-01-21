@@ -1,10 +1,10 @@
 package timer
 
 import (
+	"github.com/simp7/times/gadget"
+	"github.com/simp7/times/model/formatter"
+	"github.com/simp7/times/model/tobject"
 	"time"
-	"times/model/formatter"
-	"times/model/gadget"
-	"times/model/tobject"
 )
 
 type Timer interface {
@@ -42,7 +42,7 @@ func (t *timer) Start() {
 	t.do()
 
 	go t.working()
-	<- t.stopper
+	<-t.stopper
 
 }
 
@@ -63,7 +63,7 @@ func (t *timer) working() {
 			t.present.Rewind()
 			t.do()
 
-			if t.present.Equal(tobject.Accurate(0,0,0,0,0)) {
+			if t.present.Equal(tobject.AccurateZero()) {
 
 				if t.finalAction != nil {
 					t.finalAction()
@@ -82,7 +82,6 @@ func (t *timer) working() {
 
 }
 
-
 func (t *timer) End() string {
 
 	close(t.stopper)
@@ -95,7 +94,7 @@ func (t *timer) Add(action func(string)) {
 }
 
 func (t *timer) AddAlarm(action func(string), when tobject.Time) {
-	t.actions = append(t.actions, func(current string){
+	t.actions = append(t.actions, func(current string) {
 		if when.Equal(t.present) {
 			action(current)
 		}

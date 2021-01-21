@@ -1,6 +1,6 @@
 package gadget
 
-import "times/model/tobject"
+import "github.com/simp7/times/model/tobject"
 
 type Gadget interface {
 	Add(action func(current string))

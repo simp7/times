@@ -2,7 +2,7 @@ package formatter
 
 import (
 	"fmt"
-	"times/model/tobject"
+	"github.com/simp7/times/model/tobject"
 )
 
 type standardFormatter struct {
@@ -18,7 +18,7 @@ func (f *standardFormatter) Format(t tobject.Time) string {
 		return fmt.Sprintf("%d:0%d", t.Minute(), t.Second())
 	} else if t.Hour() == 0 {
 		return fmt.Sprintf("%d:%d", t.Minute(), t.Second())
-	} else if t.Day() == 0{
+	} else if t.Day() == 0 {
 		return fmt.Sprintf("%d:%d:%d", t.Hour(), t.Minute(), t.Second())
 	} else {
 		return fmt.Sprintf("%d:%d:%d:%d", t.Day(), t.Hour(), t.Minute(), t.Second())

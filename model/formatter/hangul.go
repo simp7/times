@@ -2,11 +2,10 @@ package formatter
 
 import (
 	"fmt"
-	"times/model/tobject"
+	"github.com/simp7/times/model/tobject"
 )
 
 type hangulFormatter struct {
-
 }
 
 func Hangul() TimeFormatter {

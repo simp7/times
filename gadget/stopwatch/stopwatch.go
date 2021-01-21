@@ -1,10 +1,10 @@
 package stopwatch
 
 import (
+	"github.com/simp7/times/gadget"
+	"github.com/simp7/times/model/formatter"
+	"github.com/simp7/times/model/tobject"
 	"time"
-	"times/model/formatter"
-	"times/model/gadget"
-	"times/model/tobject"
 )
 
 type Stopwatch interface {
@@ -38,13 +38,13 @@ func (s *stopwatch) Start() {
 	s.Ticker = *time.NewTicker(time.Duration(s.unit))
 
 	if s.unit == tobject.Ms {
-		s.present = tobject.Accurate(0,0,0,0,0)
+		s.present = tobject.Accurate(0, 0, 0, 0, 0)
 	} else {
-		s.present = tobject.Standard(0,0,0,0)
+		s.present = tobject.Standard(0, 0, 0, 0)
 	}
 
 	go s.working()
-	<- s.stopper
+	<-s.stopper
 
 }
 
@@ -85,7 +85,7 @@ func (s *stopwatch) Add(action func(string)) {
 }
 
 func (s *stopwatch) AddAlarm(action func(string), when tobject.Time) {
-	s.actions = append(s.actions, func(current string){
+	s.actions = append(s.actions, func(current string) {
 		if when.Equal(s.present) {
 			action(current)
 		}

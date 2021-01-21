@@ -3,5 +3,5 @@ package variables
 import "errors"
 
 var (
-	InvalidTime = errors.New("tobject struct is erroneous")
+	NegativeTime = errors.New("time can't be negative")
 )

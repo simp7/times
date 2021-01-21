@@ -2,11 +2,19 @@ package main
 
 import (
 	"fmt"
-	"times/model/gadget"
+	"times/gadget"
+	"times/gadget/stopwatch"
+	"times/gadget/timer"
 	"times/model/tobject"
-	"times/stopwatch"
-	"times/timer"
 )
+
+func getStandard() tobject.Time {
+	return tobject.StandardZero().SetSecond(10)
+}
+
+func getAccurate() tobject.Time {
+	return tobject.AccurateZero().SetSecond(10)
+}
 
 func testSkeleton(g gadget.Gadget, someFunc func()) {
 	g.Add(func(current string) {
@@ -21,7 +29,7 @@ func testStopwatch(s stopwatch.Stopwatch) {
 		s.AddAlarm(func(current string) {
 			fmt.Println("Finished!")
 			s.End()
-		}, tobject.Standard(5,0,0,0))
+		}, getStandard())
 	})
 }
 
@@ -39,7 +47,7 @@ func main() {
 		testStopwatch(s)
 	}
 
-	for _, s := range []timer.Timer{timer.Standard(tobject.Standard(5,0,0,0)), timer.Hangul(tobject.Standard(5, 0, 0, 0)), timer.Detail(tobject.Accurate(0, 5, 0,0, 0))} {
+	for _, s := range []timer.Timer{timer.Standard(getStandard()), timer.Hangul(getStandard()), timer.Detail(getAccurate())} {
 		testTimer(s)
 	}
 

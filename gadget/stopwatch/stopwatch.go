@@ -12,7 +12,7 @@ type Stopwatch interface {
 }
 
 type stopwatch struct {
-	time.Ticker
+	ticker    time.Ticker
 	present   tobject.Time
 	formatter formatter.TimeFormatter
 	stopper   chan struct{}
@@ -35,13 +35,14 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 
 func (s *stopwatch) Start() {
 
-	s.Ticker = *time.NewTicker(time.Duration(s.unit))
+	s.ticker = *time.NewTicker(time.Duration(s.unit))
 
 	if s.unit == tobject.Ms {
 		s.present = tobject.Accurate(0, 0, 0, 0, 0)
 	} else {
 		s.present = tobject.Standard(0, 0, 0, 0)
 	}
+	s.do()
 
 	go s.working()
 	<-s.stopper
@@ -60,12 +61,12 @@ func (s *stopwatch) working() {
 	for {
 		select {
 
-		case <-s.C:
+		case <-s.ticker.C:
 			s.present.Tick()
 			s.do()
 
 		case <-s.stopper:
-			s.Stop()
+			s.ticker.Stop()
 			return
 
 		}
@@ -90,4 +91,8 @@ func (s *stopwatch) AddAlarm(action func(string), when tobject.Time) {
 			action(current)
 		}
 	})
+}
+
+func (s *stopwatch) Reset() Stopwatch {
+	return New(s.unit, s.formatter)
 }

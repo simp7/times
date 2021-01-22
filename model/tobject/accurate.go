@@ -58,3 +58,23 @@ func (t *accurate) SetMilliSecond(ms int) Time {
 	t.ms = ms
 	return t
 }
+
+func (t *accurate) SetSecond(second int) Time {
+	t.Time.SetSecond(second)
+	return t
+}
+
+func (t *accurate) SetMinute(minute int) Time {
+	t.Time.SetMinute(minute)
+	return t
+}
+
+func (t *accurate) SetHour(hour int) Time {
+	t.Time.SetHour(hour)
+	return t
+}
+
+func (t *accurate) SetDay(day int) Time {
+	t.Time.SetDay(day)
+	return t
+}

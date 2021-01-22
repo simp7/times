@@ -17,28 +17,34 @@ func getAccurate() tobject.Time {
 }
 
 func testSkeleton(g gadget.Gadget, someFunc func()) {
+
 	g.Add(func(current string) {
 		fmt.Println(current)
 	})
 	someFunc()
 	g.Start()
+
 }
 
 func testStopwatch(s stopwatch.Stopwatch) {
+
 	testSkeleton(s, func() {
 		s.AddAlarm(func(current string) {
 			fmt.Println("Finished!")
 			s.End()
 		}, getStandard())
 	})
+
 }
 
 func testTimer(t timer.Timer) {
+
 	testSkeleton(t, func() {
 		t.DoWhenFinished(func() {
 			fmt.Println("Finished!")
 		})
 	})
+
 }
 
 func main() {

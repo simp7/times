@@ -13,7 +13,7 @@ type Timer interface {
 }
 
 type timer struct {
-	time.Ticker
+	ticker      time.Ticker
 	present     tobject.Time
 	formatter   formatter.TimeFormatter
 	stopper     chan struct{}
@@ -38,7 +38,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer
 
 func (t *timer) Start() {
 
-	t.Ticker = *time.NewTicker(time.Duration(t.unit))
+	t.ticker = *time.NewTicker(time.Duration(t.unit))
 	t.do()
 
 	go t.working()
@@ -58,7 +58,7 @@ func (t *timer) working() {
 	for {
 		select {
 
-		case <-t.C:
+		case <-t.ticker.C:
 
 			t.present.Rewind()
 			t.do()
@@ -74,7 +74,7 @@ func (t *timer) working() {
 			}
 
 		case <-t.stopper:
-			t.Stop()
+			t.ticker.Stop()
 			return
 
 		}

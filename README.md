@@ -1,3 +1,4 @@
+[![Go Reference](https://pkg.go.dev/badge/github.com/simp7/times.svg)](https://pkg.go.dev/github.com/simp7/times)
 # times
 Package dealing with time
 

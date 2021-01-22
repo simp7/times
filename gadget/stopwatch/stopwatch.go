@@ -24,7 +24,6 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 
 	s := new(stopwatch)
 
-	s.stopper = make(chan struct{})
 	s.unit = u
 	s.formatter = f
 	s.actions = make([]func(string), 0)
@@ -36,6 +35,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 func (s *stopwatch) Start() {
 
 	s.ticker = *time.NewTicker(time.Duration(s.unit))
+	s.stopper = make(chan struct{})
 
 	if s.unit == tobject.Ms {
 		s.present = tobject.Accurate(0, 0, 0, 0, 0)

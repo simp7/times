@@ -7,9 +7,10 @@ import (
 	"time"
 )
 
+//Timer is an interface that set deadline and runs until deadline has been passed or End is called.
 type Timer interface {
 	gadget.Gadget
-	DoWhenFinished(func())
+	DoWhenFinished(func()) //DoWhenFinished is called when time of timer becomes zero.
 }
 
 type timer struct {
@@ -65,13 +66,10 @@ func (t *timer) working() {
 			t.do()
 
 			if t.present.Equal(tobject.AccurateZero()) {
-
 				if t.finalAction != nil {
 					t.finalAction()
 				}
-
 				t.End()
-
 			}
 
 		case <-t.stopper:

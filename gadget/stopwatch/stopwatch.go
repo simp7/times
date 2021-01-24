@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+//Stopwatch is an interface that set deadline and runs until deadline has been passed or End is called.
 type Stopwatch interface {
 	gadget.Gadget
 }

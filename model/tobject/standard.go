@@ -7,6 +7,8 @@ type standard struct {
 	day                  int
 }
 
+//Standard is function that returns Time object.
+//Minimum unit of Standard is second.
 func Standard(second, minute, hour int8, day int) Time {
 
 	t := new(standard)
@@ -16,6 +18,7 @@ func Standard(second, minute, hour int8, day int) Time {
 
 }
 
+//AccurateZero is zero value of Time by using Standard.
 func StandardZero() Time {
 	return Standard(0, 0, 0, 0)
 }
@@ -59,6 +62,7 @@ func (t *standard) trimIfSubtracted() {
 	}
 }
 
+//
 func (t *standard) Tick() {
 	t.second++
 	t.trim()
@@ -107,8 +111,9 @@ func (t *standard) SetSecond(second int) Time {
 func (t *standard) SetMinute(minute int) Time {
 	t.minute = int8(minute)
 	return t
-} //TODO: 예외처리
+}
 
+//TODO: 예외처리
 func (t *standard) SetHour(hour int) Time {
 	t.hour = int8(hour)
 	return t

@@ -8,6 +8,8 @@ import (
 type hangulFormatter struct {
 }
 
+//Hangul returns one of struct that implements TimeFormatter.
+//Hangul shows time like 0분00초, And It can express time unit from seconds to day.
 func Hangul() TimeFormatter {
 	f := new(hangulFormatter)
 	return f

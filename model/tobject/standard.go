@@ -97,7 +97,7 @@ func (t *standard) Equal(another Time) bool {
 	return t.Day() == another.Day() && t.Hour() == another.Hour() && t.Minute() == another.Minute() && t.Second() == another.Second() && t.MilliSecond() == another.MilliSecond()
 }
 
-func (t *standard) SetMilliSecond(second int) Time {
+func (t *standard) SetMilliSecond(ms int) Time {
 	return t
 }
 

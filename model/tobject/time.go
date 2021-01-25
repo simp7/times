@@ -3,7 +3,6 @@ package tobject
 //Time is interface that indicate specific time.
 //Each Time should have time data and minimum Unit.
 type Time interface {
-	trim()                   //trim should be called when inner time data has changed. This function would fix object to fit structure.
 	Tick()                   //Tick is called when time passed. This function add minimum Unit of this object.
 	Rewind()                 //Rewind is called when time has been rewound. This function subtract minimum Unit of this object.
 	MilliSecond() int        //MilliSecond returns millisecond of this object.

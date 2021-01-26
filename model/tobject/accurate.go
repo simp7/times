@@ -8,12 +8,12 @@ type accurate struct {
 //Accurate is function that returns Time object.
 //Minimum unit of Accurate is second.
 //As this function returns the most-accurate Time object, It is encouraged to compare Time object with this.
-func Accurate(millisecond int, second, minute, hour int8, day int) Time {
+func Accurate(millisecond, second, minute, hour, day int) Time {
 
 	a := new(accurate)
+
 	a.Time = Standard(second, minute, hour, day)
-	a.ms = millisecond
-	a.trim()
+	a.SetMilliSecond(millisecond)
 
 	return a
 
@@ -60,6 +60,9 @@ func (t *accurate) Equal(another Time) bool {
 }
 
 func (t *accurate) SetMilliSecond(ms int) Time {
+	if t.ms >= 1000 || t.ms < 0 {
+		t.ms = 0
+	}
 	t.ms = ms
 	return t
 }

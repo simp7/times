@@ -9,11 +9,11 @@ import (
 )
 
 func getStandard() tobject.Time {
-	return tobject.StandardZero().SetSecond(10)
+	return tobject.StandardZero().SetSecond(5)
 }
 
 func getAccurate() tobject.Time {
-	return tobject.AccurateZero().SetSecond(10)
+	return tobject.AccurateZero().SetSecond(5)
 }
 
 func testSkeleton(g gadget.Gadget, someFunc func()) {

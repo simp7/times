@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-//Stopwatch is an interface that set deadline and runs until deadline has been passed or End is called.
+//Stopwatch is an interface that set deadline and runs until deadline has been passed or Stop is called.
 type Stopwatch interface {
 	gadget.Gadget
 }
@@ -29,7 +29,8 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 
 	s.unit = u
 	s.formatter = f
-	s.actions = make([]func(string), 0)
+
+	s.Reset()
 
 	return s
 
@@ -40,11 +41,6 @@ func (s *stopwatch) Start() {
 	s.ticker = *time.NewTicker(time.Duration(s.unit))
 	s.stopper = make(chan struct{})
 
-	if s.unit == tobject.Ms {
-		s.present = tobject.Accurate(0, 0, 0, 0, 0)
-	} else {
-		s.present = tobject.Standard(0, 0, 0, 0)
-	}
 	s.once.Do(func() {
 		s.do()
 		go s.working()
@@ -78,7 +74,7 @@ func (s *stopwatch) working() {
 
 }
 
-func (s *stopwatch) End() string {
+func (s *stopwatch) Stop() string {
 
 	close(s.stopper)
 	return s.formatter.Format(s.present)
@@ -97,6 +93,18 @@ func (s *stopwatch) AddAlarm(action func(string), when tobject.Time) {
 	})
 }
 
-func (s *stopwatch) Reset() Stopwatch {
-	return New(s.unit, s.formatter)
+func (s *stopwatch) Reset() {
+
+	s.actions = make([]func(string), 0)
+
+	if s.unit == tobject.Ms {
+		s.present = tobject.Accurate(0, 0, 0, 0, 0)
+	} else {
+		s.present = tobject.Standard(0, 0, 0, 0)
+	}
+
+}
+
+func (s *stopwatch) Pause() {
+	//TODO: Implement me.
 }

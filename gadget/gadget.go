@@ -9,5 +9,7 @@ type Gadget interface {
 	Add(action func(current string))                         //Add adds function that would be called when duration of minimum unit has passed. Parameter current in function is string-conversion of current time that inner function can uses.
 	AddAlarm(action func(current string), when tobject.Time) //AddAlarm adds function that would be called when Gadget reaches in selected time. Parameter current in function is string-conversion of current time that inner function can uses.
 	Start()                                                  //Start runs Gadget.
-	End() string                                             //End stops Gadget. It also returns string as current.
+	Stop() string                                            //Stop calls Pause and Reset. It also returns string as current.
+	Reset()                                                  //Reset sets Gadget to the state when it firstly initialized.
+	Pause()                                                  //Pause stops ticker.
 }

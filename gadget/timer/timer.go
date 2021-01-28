@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-//Timer is an interface that set deadline and runs until deadline has been passed or End is called.
+//Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
 type Timer interface {
 	gadget.Gadget
 	DoWhenFinished(func()) //DoWhenFinished is called when time of timer becomes zero.
@@ -72,7 +72,7 @@ func (t *timer) working() {
 				if t.finalAction != nil {
 					t.finalAction()
 				}
-				t.End()
+				t.Stop()
 			}
 
 		case <-t.stopper:
@@ -84,7 +84,7 @@ func (t *timer) working() {
 
 }
 
-func (t *timer) End() string {
+func (t *timer) Stop() string {
 
 	close(t.stopper)
 	return t.formatter.Format(t.present)
@@ -105,4 +105,12 @@ func (t *timer) AddAlarm(action func(string), when tobject.Time) {
 
 func (t *timer) DoWhenFinished(action func()) {
 	t.finalAction = action
+}
+
+func (t *timer) Reset() {
+	//TODO: Implement me.
+}
+
+func (t *timer) Pause() {
+	//TODO: Implement me.
 }

@@ -31,7 +31,7 @@ func testStopwatch(s stopwatch.Stopwatch) {
 	testSkeleton(s, func() {
 		s.AddAlarm(func(current string) {
 			fmt.Println("Finished!")
-			s.End()
+			s.Stop()
 		}, getStandard())
 	})
 

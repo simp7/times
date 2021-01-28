@@ -9,11 +9,15 @@ type standard struct {
 
 //Standard is function that returns Time object.
 //Minimum unit of Standard is second.
-func Standard(second, minute, hour int8, day int) Time {
+func Standard(second, minute, hour, day int) Time {
 
 	t := new(standard)
-	t.second, t.minute, t.hour, t.day = second, minute, hour, day
-	t.trim()
+
+	t.SetSecond(second)
+	t.SetMinute(minute)
+	t.SetHour(hour)
+	t.SetDay(day)
+
 	return t
 
 }
@@ -97,29 +101,37 @@ func (t *standard) Equal(another Time) bool {
 	return t.Day() == another.Day() && t.Hour() == another.Hour() && t.Minute() == another.Minute() && t.Second() == another.Second() && t.MilliSecond() == another.MilliSecond()
 }
 
-func (t *standard) SetMilliSecond(ms int) Time {
+func (t *standard) SetMilliSecond(int) Time {
 	return t
 }
 
-//TODO: 예외처리
 func (t *standard) SetSecond(second int) Time {
+	if second >= 60 || second < 0 {
+		second = 0
+	}
 	t.second = int8(second)
 	return t
 }
 
-//TODO: 예외처리
 func (t *standard) SetMinute(minute int) Time {
+	if minute >= 60 || minute < 0 {
+		minute = 0
+	}
 	t.minute = int8(minute)
 	return t
 }
 
-//TODO: 예외처리
 func (t *standard) SetHour(hour int) Time {
-	t.hour = int8(hour)
+	if hour >= 24 || hour < 0 {
+		hour = 0
+	}
 	return t
 }
 
 func (t *standard) SetDay(day int) Time {
+	if day < 0 {
+		day = 0
+	}
 	t.day = day
 	return t
 }

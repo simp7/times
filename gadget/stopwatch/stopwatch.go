@@ -4,6 +4,7 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
+	"sync"
 	"time"
 )
 
@@ -19,6 +20,7 @@ type stopwatch struct {
 	stopper   chan struct{}
 	unit      tobject.Unit
 	actions   []func(string)
+	once      sync.Once
 }
 
 func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
@@ -43,9 +45,10 @@ func (s *stopwatch) Start() {
 	} else {
 		s.present = tobject.Standard(0, 0, 0, 0)
 	}
-	s.do()
-
-	go s.working()
+	s.once.Do(func() {
+		s.do()
+		go s.working()
+	})
 	<-s.stopper
 
 }

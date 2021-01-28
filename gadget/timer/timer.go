@@ -4,6 +4,7 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
+	"sync"
 	"time"
 )
 
@@ -21,6 +22,7 @@ type timer struct {
 	unit        tobject.Unit
 	actions     []func(string)
 	finalAction func()
+	once        sync.Once
 }
 
 func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer {
@@ -41,9 +43,10 @@ func (t *timer) Start() {
 	t.ticker = *time.NewTicker(time.Duration(t.unit))
 	t.stopper = make(chan struct{})
 
-	t.do()
-
-	go t.working()
+	t.once.Do(func() {
+		t.do()
+		go t.working()
+	})
 	<-t.stopper
 
 }

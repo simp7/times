@@ -60,11 +60,15 @@ func (t *accurate) Equal(another Time) bool {
 }
 
 func (t *accurate) SetMilliSecond(ms int) Time {
+
 	if t.ms >= 1000 || t.ms < 0 {
 		t.ms = 0
 	}
+
 	t.ms = ms
+
 	return t
+
 }
 
 func (t *accurate) SetSecond(second int) Time {

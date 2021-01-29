@@ -4,8 +4,6 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
-	"sync"
-	"time"
 )
 
 //Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
@@ -15,14 +13,13 @@ type Timer interface {
 }
 
 type timer struct {
-	ticker      time.Ticker
+	ticker      gadget.Ticker
 	present     tobject.Time
+	deadline    tobject.Time
 	formatter   formatter.TimeFormatter
-	stopper     chan struct{}
 	unit        tobject.Unit
 	actions     []func(string)
 	finalAction func()
-	once        sync.Once
 }
 
 func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer {
@@ -31,24 +28,18 @@ func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer
 
 	t.unit = u
 	t.formatter = f
-	t.present = deadline
-	t.actions = make([]func(string), 0)
+	t.deadline = deadline
+
+	t.ticker = gadget.NewTicker(u)
+
+	t.Reset()
 
 	return t
 
 }
 
 func (t *timer) Start() {
-
-	t.ticker = *time.NewTicker(time.Duration(t.unit))
-	t.stopper = make(chan struct{})
-
-	t.once.Do(func() {
-		t.do()
-		go t.working()
-	})
-	<-t.stopper
-
+	t.work()
 }
 
 func (t *timer) do() {
@@ -58,36 +49,33 @@ func (t *timer) do() {
 	}
 }
 
-func (t *timer) working() {
+func (t *timer) work() {
 
-	for {
-		select {
+	t.ticker.Start(func() {
 
-		case <-t.ticker.C:
+		t.do()
 
-			t.present.Rewind()
-			t.do()
-
-			if t.present.Equal(tobject.AccurateZero()) {
-				if t.finalAction != nil {
-					t.finalAction()
-				}
-				t.Stop()
-			}
-
-		case <-t.stopper:
-			t.ticker.Stop()
+		if t.present.Equal(tobject.AccurateZero()) {
+			t.Stop()
 			return
-
 		}
-	}
+
+		t.present.Rewind()
+
+	})
 
 }
 
 func (t *timer) Stop() string {
 
-	close(t.stopper)
-	return t.formatter.Format(t.present)
+	result := t.formatter.Format(t.present)
+
+	t.finalAction()
+
+	t.Pause()
+	t.Reset()
+
+	return result
 
 }
 
@@ -108,9 +96,10 @@ func (t *timer) DoWhenFinished(action func()) {
 }
 
 func (t *timer) Reset() {
-	//TODO: Implement me.
+	t.present = t.deadline
+	t.actions = make([]func(string), 0)
 }
 
 func (t *timer) Pause() {
-	//TODO: Implement me.
+	t.ticker.Stop()
 }

@@ -4,8 +4,6 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
-	"sync"
-	"time"
 )
 
 //Stopwatch is an interface that set deadline and runs until deadline has been passed or Stop is called.
@@ -14,13 +12,11 @@ type Stopwatch interface {
 }
 
 type stopwatch struct {
-	ticker    time.Ticker
+	ticker    gadget.Ticker
 	present   tobject.Time
 	formatter formatter.TimeFormatter
-	stopper   chan struct{}
 	unit      tobject.Unit
 	actions   []func(string)
-	once      sync.Once
 }
 
 func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
@@ -30,6 +26,8 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 	s.unit = u
 	s.formatter = f
 
+	s.ticker = gadget.NewTicker(u)
+
 	s.Reset()
 
 	return s
@@ -37,16 +35,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 }
 
 func (s *stopwatch) Start() {
-
-	s.ticker = *time.NewTicker(time.Duration(s.unit))
-	s.stopper = make(chan struct{})
-
-	s.once.Do(func() {
-		s.do()
-		go s.working()
-	})
-	<-s.stopper
-
+	s.work()
 }
 
 func (s *stopwatch) do() {
@@ -56,28 +45,21 @@ func (s *stopwatch) do() {
 	}
 }
 
-func (s *stopwatch) working() {
-
-	for {
-		select {
-
-		case <-s.ticker.C:
-			s.present.Tick()
-			s.do()
-
-		case <-s.stopper:
-			s.ticker.Stop()
-			return
-
-		}
-	}
-
+func (s *stopwatch) work() {
+	s.ticker.Start(func() {
+		s.do()
+		s.present.Tick()
+	})
 }
 
 func (s *stopwatch) Stop() string {
 
-	close(s.stopper)
-	return s.formatter.Format(s.present)
+	result := s.formatter.Format(s.present)
+
+	s.Pause()
+	s.Reset()
+
+	return result
 
 }
 
@@ -106,5 +88,5 @@ func (s *stopwatch) Reset() {
 }
 
 func (s *stopwatch) Pause() {
-	//TODO: Implement me.
+	s.ticker.Stop()
 }

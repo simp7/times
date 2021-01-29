@@ -22,17 +22,20 @@ type ticker struct {
 }
 
 func (t *ticker) Start(action func()) {
+
 	t.stopper = make(chan struct{})
-	go func(s chan struct{}) {
-		for {
-			select {
-			case <-time.After(t.unit):
-				action()
-			case <-s:
-				return
-			}
+
+	action()
+
+	for {
+		select {
+		case <-time.After(t.unit):
+			action()
+		case <-t.stopper:
+			return
 		}
-	}(t.stopper)
+	}
+
 }
 
 func (t *ticker) Stop() {

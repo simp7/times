@@ -4,6 +4,7 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
+	"sync"
 )
 
 //Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
@@ -18,6 +19,8 @@ type timer struct {
 	deadline    tobject.Time
 	formatter   formatter.TimeFormatter
 	unit        tobject.Unit
+	once        sync.Once
+	isRunning   bool
 	actions     []func(string)
 	finalAction func()
 }
@@ -29,6 +32,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer
 	t.unit = u
 	t.formatter = f
 	t.deadline = deadline
+	t.isRunning = false
 
 	t.ticker = gadget.NewTicker(u)
 
@@ -39,6 +43,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer
 }
 
 func (t *timer) Start() {
+	t.isRunning = true
 	t.work()
 }
 
@@ -50,27 +55,20 @@ func (t *timer) do() {
 }
 
 func (t *timer) work() {
-
 	t.ticker.Start(func() {
-
-		t.do()
-
-		if t.present.Equal(tobject.AccurateZero()) {
-			t.Stop()
-			return
-		}
-
 		t.present.Rewind()
-
+		t.once.Do(t.present.Tick)
+		t.do()
 	})
-
 }
 
 func (t *timer) Stop() string {
 
 	result := t.formatter.Format(t.present)
 
-	t.finalAction()
+	if t.finalAction != nil {
+		t.finalAction()
+	}
 
 	t.Pause()
 	t.Reset()
@@ -98,8 +96,13 @@ func (t *timer) DoWhenFinished(action func()) {
 func (t *timer) Reset() {
 	t.present = t.deadline
 	t.actions = make([]func(string), 0)
+	t.AddAlarm(func(string) { t.Stop() }, tobject.StandardZero())
+	t.once = sync.Once{}
 }
 
 func (t *timer) Pause() {
-	t.ticker.Stop()
+	if t.isRunning {
+		t.ticker.Stop()
+		t.isRunning = false
+	}
 }

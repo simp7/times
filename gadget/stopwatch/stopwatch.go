@@ -4,6 +4,7 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
+	"sync"
 )
 
 //Stopwatch is an interface that set deadline and runs until deadline has been passed or Stop is called.
@@ -16,6 +17,8 @@ type stopwatch struct {
 	present   tobject.Time
 	formatter formatter.TimeFormatter
 	unit      tobject.Unit
+	once      sync.Once
+	isRunning bool
 	actions   []func(string)
 }
 
@@ -25,6 +28,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 
 	s.unit = u
 	s.formatter = f
+	s.isRunning = false
 
 	s.ticker = gadget.NewTicker(u)
 
@@ -35,6 +39,7 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
 }
 
 func (s *stopwatch) Start() {
+	s.isRunning = true
 	s.work()
 }
 
@@ -47,8 +52,9 @@ func (s *stopwatch) do() {
 
 func (s *stopwatch) work() {
 	s.ticker.Start(func() {
-		s.do()
 		s.present.Tick()
+		s.once.Do(s.present.Rewind)
+		s.do()
 	})
 }
 
@@ -85,8 +91,13 @@ func (s *stopwatch) Reset() {
 		s.present = tobject.Standard(0, 0, 0, 0)
 	}
 
+	s.once = sync.Once{}
+
 }
 
 func (s *stopwatch) Pause() {
-	s.ticker.Stop()
+	if s.isRunning {
+		s.isRunning = false
+		s.ticker.Stop()
+	}
 }

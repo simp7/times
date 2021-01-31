@@ -2,6 +2,7 @@ package stopwatch
 
 import (
 	"github.com/simp7/times/gadget"
+	"github.com/simp7/times/model/action"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
 	"sync"
@@ -19,7 +20,7 @@ type stopwatch struct {
 	unit      tobject.Unit
 	once      sync.Once
 	isRunning bool
-	actions   []func(string)
+	actions   action.Actions
 }
 
 func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
@@ -43,11 +44,13 @@ func (s *stopwatch) Start() {
 	s.work()
 }
 
+func (s *stopwatch) getAction() action.Action {
+	return s.actions.ActionsWhen(s.present)
+}
+
 func (s *stopwatch) do() {
 	current := s.formatter.Format(s.present)
-	for _, action := range s.actions {
-		action(current)
-	}
+	s.getAction().Do(current)
 }
 
 func (s *stopwatch) work() {
@@ -69,21 +72,17 @@ func (s *stopwatch) Stop() string {
 
 }
 
-func (s *stopwatch) Add(action func(string)) {
-	s.actions = append(s.actions, action)
+func (s *stopwatch) Add(f func(string)) {
+	s.actions.Add(action.NewAction(f), nil)
 }
 
-func (s *stopwatch) AddAlarm(action func(string), when tobject.Time) {
-	s.actions = append(s.actions, func(current string) {
-		if when.Equal(s.present) {
-			action(current)
-		}
-	})
+func (s *stopwatch) AddAlarm(f func(string), when tobject.Time) {
+	s.actions.Add(action.NewAction(f), when)
 }
 
 func (s *stopwatch) Reset() {
 
-	s.actions = make([]func(string), 0)
+	s.actions = action.NewActions()
 
 	if s.unit == tobject.Ms {
 		s.present = tobject.Accurate(0, 0, 0, 0, 0)
@@ -91,13 +90,12 @@ func (s *stopwatch) Reset() {
 		s.present = tobject.Standard(0, 0, 0, 0)
 	}
 
-	s.once = sync.Once{}
-
 }
 
 func (s *stopwatch) Pause() {
 	if s.isRunning {
 		s.isRunning = false
 		s.ticker.Stop()
+		s.once = sync.Once{}
 	}
 }

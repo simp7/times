@@ -1,6 +1,9 @@
 package tobject
 
-import "github.com/simp7/times/variables"
+import (
+	"fmt"
+	"github.com/simp7/times/variables"
+)
 
 type standard struct {
 	second, minute, hour int8
@@ -154,4 +157,8 @@ func (t *standard) SetDay(day int) Time {
 
 	return t
 
+}
+
+func (t *standard) Serialize() string {
+	return fmt.Sprintf("%d/%d/%d/%d/%d", t.Day(), t.Hour(), t.Minute(), t.Second(), t.MilliSecond())
 }

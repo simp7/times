@@ -16,4 +16,5 @@ type Time interface {
 	SetMinute(int) Time      //SetMinute sets millisecond of this object. This function also returns object itself.
 	SetHour(int) Time        //SetHour sets millisecond of this object. This function also returns object itself.
 	SetDay(int) Time         //SetDay sets millisecond of this object. This function also returns object itself.
+	Serialize() string
 }

@@ -2,6 +2,7 @@ package timer
 
 import (
 	"github.com/simp7/times/gadget"
+	"github.com/simp7/times/model/action"
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
 	"sync"
@@ -10,19 +11,17 @@ import (
 //Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
 type Timer interface {
 	gadget.Gadget
-	DoWhenFinished(func()) //DoWhenFinished is called when time of timer becomes zero.
 }
 
 type timer struct {
-	ticker      gadget.Ticker
-	present     tobject.Time
-	deadline    tobject.Time
-	formatter   formatter.TimeFormatter
-	unit        tobject.Unit
-	once        sync.Once
-	isRunning   bool
-	actions     []func(string)
-	finalAction func()
+	ticker    gadget.Ticker
+	present   tobject.Time
+	deadline  tobject.Time
+	formatter formatter.TimeFormatter
+	unit      tobject.Unit
+	once      sync.Once
+	isRunning bool
+	actions   action.Actions
 }
 
 func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer {
@@ -47,11 +46,13 @@ func (t *timer) Start() {
 	t.work()
 }
 
+func (t *timer) getAction() action.Action {
+	return t.actions.ActionsWhen(t.present)
+}
+
 func (t *timer) do() {
 	current := t.formatter.Format(t.present)
-	for _, action := range t.actions {
-		action(current)
-	}
+	t.getAction().Do(current)
 }
 
 func (t *timer) work() {
@@ -66,10 +67,6 @@ func (t *timer) Stop() string {
 
 	result := t.formatter.Format(t.present)
 
-	if t.finalAction != nil {
-		t.finalAction()
-	}
-
 	t.Pause()
 	t.Reset()
 
@@ -77,32 +74,24 @@ func (t *timer) Stop() string {
 
 }
 
-func (t *timer) Add(action func(string)) {
-	t.actions = append(t.actions, action)
+func (t *timer) Add(f func(string)) {
+	t.actions.Add(action.NewAction(f), nil)
 }
 
-func (t *timer) AddAlarm(action func(string), when tobject.Time) {
-	t.actions = append(t.actions, func(current string) {
-		if when.Equal(t.present) {
-			action(current)
-		}
-	})
-}
-
-func (t *timer) DoWhenFinished(action func()) {
-	t.finalAction = action
+func (t *timer) AddAlarm(f func(string), when tobject.Time) {
+	t.actions.Add(action.NewAction(f), when)
 }
 
 func (t *timer) Reset() {
 	t.present = t.deadline
-	t.actions = make([]func(string), 0)
+	t.actions = action.NewActions()
 	t.AddAlarm(func(string) { t.Stop() }, tobject.StandardZero())
-	t.once = sync.Once{}
 }
 
 func (t *timer) Pause() {
 	if t.isRunning {
 		t.ticker.Stop()
 		t.isRunning = false
+		t.once = sync.Once{}
 	}
 }

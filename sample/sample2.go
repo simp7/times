@@ -76,6 +76,6 @@ func main() {
 	alarm2 := tobject.Standard(second*2, 0, 0, 0)
 
 	recursiveCall(changeStopwatchesToGadgets(preset.Stopwatches()), alarm1, alarm2)
-	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, tobject.StandardZero().SetSecond(1))
+	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, tobject.StandardZero().SetSecond(0))
 
 }

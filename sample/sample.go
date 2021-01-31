@@ -5,6 +5,7 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/gadget/stopwatch"
 	"github.com/simp7/times/gadget/timer"
+	"github.com/simp7/times/model/tobject"
 	"github.com/simp7/times/sample/preset"
 	"os"
 	"strconv"
@@ -34,9 +35,9 @@ func testStopwatch1(s stopwatch.Stopwatch, t int) {
 func testTimer1(t timer.Timer) {
 
 	test1Skeleton(t, func() {
-		t.DoWhenFinished(func() {
+		t.AddAlarm(func(string) {
 			fmt.Println("Finished!")
-		})
+		}, tobject.StandardZero())
 	})
 
 }

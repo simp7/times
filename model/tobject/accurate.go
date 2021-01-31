@@ -1,5 +1,7 @@
 package tobject
 
+import "fmt"
+
 type accurate struct {
 	Time
 	ms int
@@ -89,4 +91,8 @@ func (t *accurate) SetHour(hour int) Time {
 func (t *accurate) SetDay(day int) Time {
 	t.Time.SetDay(day)
 	return t
+}
+
+func (t *accurate) Serialize() string {
+	return fmt.Sprintf("%d/%d/%d/%d/%d", t.Day(), t.Hour(), t.Minute(), t.Second(), t.MilliSecond())
 }

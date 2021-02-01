@@ -1,8 +1,9 @@
 package action
 
+//Action is kind of function that would be used in gadget.Gadget.
 type Action interface {
-	Add(func(string)) Action
-	Do(string)
+	Add(func(string)) Action //Add returns action that has current function of this object and parameter function.
+	Do(string)               //Do executes function that current object has.
 }
 
 type action struct {

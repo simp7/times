@@ -22,24 +22,20 @@ func test1Skeleton(g gadget.Gadget, someFunc func()) {
 }
 
 func testStopwatch1(s stopwatch.Stopwatch, t int) {
-
 	test1Skeleton(s, func() {
 		s.AddAlarm(func(current string) {
 			fmt.Println("Finished!")
 			s.Stop()
 		}, preset.GetStandard(t))
 	})
-
 }
 
 func testTimer1(t timer.Timer) {
-
 	test1Skeleton(t, func() {
 		t.AddAlarm(func(string) {
 			fmt.Println("Finished!")
 		}, tobject.StandardZero())
 	})
-
 }
 
 func main() {

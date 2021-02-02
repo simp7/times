@@ -1,6 +1,8 @@
 package gadget
 
-import "github.com/simp7/times/model/tobject"
+import (
+	"github.com/simp7/times/model/tobject"
+)
 
 //Gadget is an interface for tools that uses time.
 //Each Gadget has minimum unit as tobject.Unit, and It has formatter.TimeFormatter to represent current times as string.

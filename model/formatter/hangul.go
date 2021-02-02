@@ -30,5 +30,7 @@ func (f *hangulFormatter) Format(t tobject.Time) (result string) {
 	default:
 		result += fmt.Sprintf("%d초", t.Second())
 	}
+
 	return
+
 }

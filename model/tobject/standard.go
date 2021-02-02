@@ -1,6 +1,9 @@
 package tobject
 
-import "github.com/simp7/times/variables"
+import (
+	"fmt"
+	"github.com/simp7/times/variables"
+)
 
 type standard struct {
 	second, minute, hour int8
@@ -29,11 +32,14 @@ func StandardZero() Time {
 
 //Should be called after calculation
 func (t *standard) trim() {
+
 	t.trimIfAdded()
 	t.trimIfSubtracted()
+
 	if t.Day() < 0 {
 		panic(variables.NegativeTime)
 	}
+
 }
 
 func (t *standard) trimIfAdded() {
@@ -106,32 +112,53 @@ func (t *standard) SetMilliSecond(int) Time {
 }
 
 func (t *standard) SetSecond(second int) Time {
+
 	if second >= 60 || second < 0 {
 		second = 0
 	}
+
 	t.second = int8(second)
+
 	return t
+
 }
 
 func (t *standard) SetMinute(minute int) Time {
+
 	if minute >= 60 || minute < 0 {
 		minute = 0
 	}
+
 	t.minute = int8(minute)
+
 	return t
+
 }
 
 func (t *standard) SetHour(hour int) Time {
+
 	if hour >= 24 || hour < 0 {
 		hour = 0
 	}
+
+	t.hour = int8(hour)
+
 	return t
+
 }
 
 func (t *standard) SetDay(day int) Time {
+
 	if day < 0 {
 		day = 0
 	}
+
 	t.day = day
+
 	return t
+
+}
+
+func (t *standard) Serialize() string {
+	return fmt.Sprintf("%d/%d/%d/%d/%d", t.Day(), t.Hour(), t.Minute(), t.Second(), t.MilliSecond())
 }

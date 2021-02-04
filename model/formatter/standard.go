@@ -11,18 +11,20 @@ type standardFormatter struct {
 //Standard returns one of struct that implements TimeFormatter.
 //Standard shows time like 0:00, And It can express time unit from second to day.
 func Standard() TimeFormatter {
-	f := new(standardFormatter)
-	return f
+	return new(standardFormatter)
 }
 
 func (f *standardFormatter) Format(t tobject.Time) string {
-	if t.Second() < 10 {
-		return fmt.Sprintf("%d:0%d", t.Minute(), t.Second())
-	} else if t.Hour() == 0 {
-		return fmt.Sprintf("%d:%d", t.Minute(), t.Second())
+
+	sec := doubleDigitFormat(t.Second())
+	min := doubleDigitFormat(t.Minute())
+	hour := doubleDigitFormat(t.Hour())
+
+	if t.Hour() == 0 {
+		return fmt.Sprintf("%s:%s", min, sec)
 	} else if t.Day() == 0 {
-		return fmt.Sprintf("%d:%d:%d", t.Hour(), t.Minute(), t.Second())
+		return fmt.Sprintf("%s:%s:%s", hour, min, sec)
 	} else {
-		return fmt.Sprintf("%d:%d:%d:%d", t.Day(), t.Hour(), t.Minute(), t.Second())
+		return fmt.Sprintf("%d:%s:%s:%s", t.Day(), hour, min, sec)
 	}
 }

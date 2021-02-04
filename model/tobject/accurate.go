@@ -1,6 +1,9 @@
 package tobject
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type accurate struct {
 	Time
@@ -9,7 +12,7 @@ type accurate struct {
 
 //Accurate is function that returns Time object.
 //Minimum unit of Accurate is second.
-//As this function returns the most-accurate Time object, It is encouraged to compare Time object with this.
+//As Accurate returns the most-accurate Time object, It is encouraged to compare Time object with this.
 func Accurate(millisecond, second, minute, hour, day int) Time {
 
 	a := new(accurate)
@@ -19,6 +22,12 @@ func Accurate(millisecond, second, minute, hour, day int) Time {
 
 	return a
 
+}
+
+// AccurateFor is function that gets time.Time object and convert it to Time object.
+// The other feature of AccurateFor is same as Accurate.
+func AccurateFor(t time.Time) Time {
+	return Accurate(t.Nanosecond()/1000000, t.Second(), t.Minute(), t.Hour(), t.Day())
 }
 
 //AccurateZero is zero value of Time by using Accurate.

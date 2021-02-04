@@ -6,6 +6,7 @@ import (
 	"github.com/simp7/times/model/formatter"
 	"github.com/simp7/times/model/tobject"
 	"sync"
+	"time"
 )
 
 type Clock interface {
@@ -33,13 +34,13 @@ func New(u tobject.Unit, f formatter.TimeFormatter) Clock {
 	c.ticker = gadget.NewTicker(u)
 
 	c.Reset()
-	c.Start()
 
 	return c
 
 }
 
 func (c *clock) Start() {
+	c.sync()
 	c.isRunning = true
 	c.work()
 }
@@ -80,17 +81,16 @@ func (c *clock) AddAlarm(f func(current string), when tobject.Time) {
 }
 
 func (c *clock) Reset() {
-
 	c.actions = action.NewActions()
-
-	if c.unit == tobject.Ms {
-		c.present = tobject.Accurate(0, 0, 0, 0, 0)
-	} else {
-		c.present = tobject.Standard(0, 0, 0, 0)
-	}
-
 	c.sync()
+}
 
+func (c *clock) sync() {
+	if c.unit == tobject.Ms {
+		c.present = tobject.AccurateFor(time.Now())
+	} else {
+		c.present = tobject.StandardFor(time.Now())
+	}
 }
 
 func (c *clock) Pause() {
@@ -99,8 +99,4 @@ func (c *clock) Pause() {
 		c.ticker.Stop()
 		c.once = sync.Once{}
 	}
-}
-
-func (c *clock) sync() {
-	//TODO: synchronize clock to now.
 }

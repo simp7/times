@@ -6,5 +6,5 @@ import (
 )
 
 func Standard() Clock {
-	return New(tobject.Sec, formatter.Standard())
+	return New(tobject.Sec, formatter.Clock(true))
 }

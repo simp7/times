@@ -6,12 +6,12 @@ import (
 )
 
 type clockFormatter struct {
-	is24 bool
+	notation12 bool
 }
 
-func Clock(is24 bool) TimeFormatter {
+func Clock(notation12 bool) TimeFormatter {
 	f := new(clockFormatter)
-	f.is24 = is24
+	f.notation12 = notation12
 	return f
 }
 
@@ -19,7 +19,7 @@ func (c *clockFormatter) Format(t tobject.Time) string {
 
 	result := fmt.Sprintf("%s:%s", doubleDigitFormat(t.Minute()), doubleDigitFormat(t.Second()))
 
-	if c.is24 {
+	if c.notation12 {
 		hour, suffix := decomposeHour(t.Hour())
 		return fmt.Sprintf("%d:%s %s", hour, result, suffix)
 	}

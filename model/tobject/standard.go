@@ -3,6 +3,7 @@ package tobject
 import (
 	"fmt"
 	"github.com/simp7/times/variables"
+	"time"
 )
 
 type standard struct {
@@ -23,6 +24,12 @@ func Standard(second, minute, hour, day int) Time {
 
 	return t
 
+}
+
+// StandardFor is function that gets time.Time object and convert it to Time object.
+// The other feature of StandardFor is same as Standard.
+func StandardFor(t time.Time) Time {
+	return Standard(t.Second(), t.Minute(), t.Hour(), t.Day())
 }
 
 //AccurateZero is zero value of Time by using Standard.

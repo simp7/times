@@ -14,4 +14,5 @@ type Gadget interface {
 	Stop() string                                            //Stop calls Pause and Reset. It also returns string as current.
 	Reset()                                                  //Reset sets Gadget to the state when it firstly initialized.
 	Pause()                                                  //Pause stops ticker.
+	Present() string
 }

@@ -49,7 +49,7 @@ func (s *stopwatch) getAction() action.Action {
 }
 
 func (s *stopwatch) do() {
-	current := s.formatter.Format(s.present)
+	current := s.Present()
 	s.getAction().Do(current)
 }
 
@@ -63,7 +63,7 @@ func (s *stopwatch) work() {
 
 func (s *stopwatch) Stop() string {
 
-	result := s.formatter.Format(s.present)
+	result := s.Present()
 
 	s.Pause()
 	s.Reset()
@@ -98,4 +98,8 @@ func (s *stopwatch) Pause() {
 		s.ticker.Stop()
 		s.once = sync.Once{}
 	}
+}
+
+func (s *stopwatch) Present() string {
+	return s.formatter.Format(s.present)
 }

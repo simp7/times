@@ -50,7 +50,7 @@ func (c *clock) getAction() action.Action {
 }
 
 func (c *clock) do() {
-	current := c.formatter.Format(c.present)
+	current := c.Present()
 	c.getAction().Do(current)
 }
 
@@ -63,7 +63,7 @@ func (c *clock) work() {
 
 func (c *clock) Stop() string {
 
-	result := c.formatter.Format(c.present)
+	result := c.Present()
 
 	c.Pause()
 	c.Reset()
@@ -99,4 +99,8 @@ func (c *clock) Pause() {
 		c.ticker.Stop()
 		c.once = sync.Once{}
 	}
+}
+
+func (c *clock) Present() string {
+	return c.formatter.Format(c.present)
 }

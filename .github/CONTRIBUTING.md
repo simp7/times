@@ -1,7 +1,7 @@
 # Contribute
 Typically, you can contribute to this project by publishing issue or pulling request.
 We have templates for those contributing actions.
-If you want to check out those, read [issue template](ISSUE_TEMPLATE.md) and [pull request templates](PULL_REQUEST_TEMPLATES.md).
+If you want to check out those, read [issue template](ISSUE_TEMPLATE.md) and [pull request templates](pull_request_template.md).
 
 ## We are looking for contributor
 As it is in beginning step, we are looking for contributors eagerly.

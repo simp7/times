@@ -1,5 +1,6 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/simp7/times.svg)](https://pkg.go.dev/github.com/simp7/times)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+[![Go Report Card](https://goreportcard.com/badge/github.com/simp7/times)](https://goreportcard.com/report/github.com/simp7/times)
 # times
 Package dealing with time
 

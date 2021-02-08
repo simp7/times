@@ -83,10 +83,23 @@ func (t *timer) AddAlarm(f func(string), when tobject.Time) {
 }
 
 func (t *timer) Reset() {
+
 	preset := t.deadline
-	t.present = tobject.Accurate(preset.MilliSecond(), preset.Second(), preset.Minute(), preset.Hour(), preset.Day())
+	if t.unit == tobject.Ms {
+		t.present = tobject.AccurateZero()
+	} else {
+		t.present = tobject.StandardZero()
+	}
+
+	t.present.SetMilliSecond(preset.MilliSecond()).
+		SetSecond(preset.Second()).
+		SetMinute(preset.Minute()).
+		SetHour(preset.Hour()).
+		SetDay(preset.Day())
+
 	t.actions = action.NewActions()
 	t.AddAlarm(func(string) { t.Stop() }, tobject.StandardZero())
+
 }
 
 func (t *timer) resetPresent() {

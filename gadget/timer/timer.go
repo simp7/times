@@ -51,7 +51,7 @@ func (t *timer) getAction() action.Action {
 }
 
 func (t *timer) do() {
-	current := t.formatter.Format(t.present)
+	current := t.Present()
 	t.getAction().Do(current)
 }
 
@@ -65,7 +65,7 @@ func (t *timer) work() {
 
 func (t *timer) Stop() string {
 
-	result := t.formatter.Format(t.present)
+	result := t.Present()
 
 	t.Pause()
 	t.Reset()
@@ -116,4 +116,8 @@ func (t *timer) Pause() {
 		t.isRunning = false
 		t.once = sync.Once{}
 	}
+}
+
+func (t *timer) Present() string {
+	return t.formatter.Format(t.present)
 }

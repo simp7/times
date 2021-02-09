@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	c := clock.Standard()
+	c := clock.Standard
 
 	c.Add(func(s string) {
 		fmt.Println(s)

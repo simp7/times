@@ -10,6 +10,7 @@ type action struct {
 	body func(string)
 }
 
+//NewAction capsulize function to action.
 func NewAction(f func(string)) Action {
 	var a = action{f}
 	return a

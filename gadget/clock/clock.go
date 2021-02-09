@@ -23,15 +23,17 @@ type clock struct {
 	actions   action.Actions
 }
 
-func New(u tobject.Unit, f formatter.TimeFormatter) Clock {
+//New returns struct that implements Clock.
+//parameter unit is for ticking rate and formatter for formatting time to string.
+func New(unit tobject.Unit, formatter formatter.TimeFormatter) Clock {
 
 	c := new(clock)
 
-	c.unit = u
-	c.formatter = f
+	c.unit = unit
+	c.formatter = formatter
 	c.isRunning = false
 
-	c.ticker = gadget.NewTicker(u)
+	c.ticker = gadget.NewTicker(unit)
 
 	c.Reset()
 

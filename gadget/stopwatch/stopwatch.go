@@ -23,15 +23,17 @@ type stopwatch struct {
 	actions   action.Actions
 }
 
-func New(u tobject.Unit, f formatter.TimeFormatter) Stopwatch {
+//New returns struct that implements Stopwatch.
+//parameter unit is for ticking rate and formatter for formatting time to string.
+func New(unit tobject.Unit, formatter formatter.TimeFormatter) Stopwatch {
 
 	s := new(stopwatch)
 
-	s.unit = u
-	s.formatter = f
+	s.unit = unit
+	s.formatter = formatter
 	s.isRunning = false
 
-	s.ticker = gadget.NewTicker(u)
+	s.ticker = gadget.NewTicker(unit)
 
 	s.Reset()
 

@@ -24,16 +24,18 @@ type timer struct {
 	actions   action.Actions
 }
 
-func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer {
+//New returns struct that implements Timer.
+//parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
+func New(unit tobject.Unit, formatter formatter.TimeFormatter, deadline tobject.Time) Timer {
 
 	t := new(timer)
 
-	t.unit = u
-	t.formatter = f
+	t.unit = unit
+	t.formatter = formatter
 	t.deadline = deadline
 	t.isRunning = false
 
-	t.ticker = gadget.NewTicker(u)
+	t.ticker = gadget.NewTicker(unit)
 
 	t.Reset()
 

@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+//Clock is an interface that returns current time.
 type Clock interface {
 	gadget.Gadget
 }

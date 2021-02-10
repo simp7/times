@@ -2,7 +2,7 @@ package tobject
 
 import "time"
 
-//Type Unit is redirection of time.Duration.
+//Unit is a type that redirection of time.Duration.
 //Unit can be implemented in implementation of gadget.Gadget to control the tick rate.
 type Unit time.Duration
 

@@ -32,7 +32,7 @@ func StandardFor(t time.Time) Time {
 	return Standard(t.Second(), t.Minute(), t.Hour(), t.Day())
 }
 
-//AccurateZero is zero value of Time by using Standard.
+//StandardZero is zero value of Time by using Standard.
 func StandardZero() Time {
 	return Standard(0, 0, 0, 0)
 }

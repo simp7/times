@@ -2,6 +2,8 @@ package action
 
 import "github.com/simp7/times/model/tobject"
 
+//Actions is an interface that include a set of Action.
+//Actions would be used in gadget.Gadget.
 type Actions interface {
 	Add(Action, tobject.Time)        //Add adds Action to Actions in designated time.
 	ActionsWhen(tobject.Time) Action //ActionsWhen returns Action in designated time.

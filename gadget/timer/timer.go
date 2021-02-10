@@ -24,16 +24,18 @@ type timer struct {
 	actions   action.Actions
 }
 
-func New(u tobject.Unit, f formatter.TimeFormatter, deadline tobject.Time) Timer {
+//New returns struct that implements Timer.
+//parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
+func New(unit tobject.Unit, formatter formatter.TimeFormatter, deadline tobject.Time) Timer {
 
 	t := new(timer)
 
-	t.unit = u
-	t.formatter = f
+	t.unit = unit
+	t.formatter = formatter
 	t.deadline = deadline
 	t.isRunning = false
 
-	t.ticker = gadget.NewTicker(u)
+	t.ticker = gadget.NewTicker(unit)
 
 	t.Reset()
 
@@ -83,10 +85,23 @@ func (t *timer) AddAlarm(f func(string), when tobject.Time) {
 }
 
 func (t *timer) Reset() {
+
 	preset := t.deadline
-	t.present = tobject.Accurate(preset.MilliSecond(), preset.Second(), preset.Minute(), preset.Hour(), preset.Day())
+	if t.unit == tobject.Ms {
+		t.present = tobject.AccurateZero()
+	} else {
+		t.present = tobject.StandardZero()
+	}
+
+	t.present.SetMilliSecond(preset.MilliSecond()).
+		SetSecond(preset.Second()).
+		SetMinute(preset.Minute()).
+		SetHour(preset.Hour()).
+		SetDay(preset.Day())
+
 	t.actions = action.NewActions()
 	t.AddAlarm(func(string) { t.Stop() }, tobject.StandardZero())
+
 }
 
 func (t *timer) resetPresent() {

@@ -3,8 +3,8 @@ package action
 import "github.com/simp7/times/model/tobject"
 
 type Actions interface {
-	Add(Action, tobject.Time)
-	ActionsWhen(tobject.Time) Action
+	Add(Action, tobject.Time)        //Add adds Action to Actions in designated time.
+	ActionsWhen(tobject.Time) Action //ActionsWhen returns Action in designated time.
 }
 
 type actions struct {
@@ -12,6 +12,7 @@ type actions struct {
 	alwaysFunction Action
 }
 
+//NewActions Returns Empty Actions.
 func NewActions() Actions {
 	a := new(actions)
 	a.data = make(map[string]Action)

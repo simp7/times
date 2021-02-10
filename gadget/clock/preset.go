@@ -5,6 +5,6 @@ import (
 	"github.com/simp7/times/model/tobject"
 )
 
-func Standard() Clock {
-	return New(tobject.Sec, formatter.Clock(true))
-}
+var (
+	Standard = New(tobject.Sec, formatter.Clock(true)) //Standard returns Clock that implements tobject.Standard and formatter.Standard adopting minimum unit as second. Its notation would be 12 so AM/PM notation would be added.
+)

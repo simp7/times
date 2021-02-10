@@ -44,7 +44,7 @@ func (t *standard) trim() {
 	t.trimIfSubtracted()
 
 	if t.Day() < 0 {
-		panic(variables.NegativeTime)
+		panic(variables.ErrNegativeTime)
 	}
 
 }

@@ -5,39 +5,52 @@ import (
 	"time"
 )
 
+//Ticker do function in specific period.
 type Ticker interface {
-	Start(func())
-	Stop()
-}
-
-func NewTicker(unit tobject.Unit) Ticker {
-	t := new(ticker)
-	t.unit = time.Duration(unit)
-	return t
+	Start(func()) //Start implement function and operate Ticker. When ticker ticks, function of parameter would be called.
+	Stop()        //Stop stops Ticker ticking.
 }
 
 type ticker struct {
-	unit    time.Duration
-	stopper chan struct{}
+	unit      time.Duration
+	stopper   chan struct{}
+	isRunning bool
+}
+
+//NewTicker Returns Ticker that ticks in rate of unit.
+//Parameter unit determines the rate of ticker.
+func NewTicker(unit tobject.Unit) Ticker {
+	t := new(ticker)
+	t.unit = time.Duration(unit)
+	t.isRunning = false
+	return t
 }
 
 func (t *ticker) Start(action func()) {
 
-	t.stopper = make(chan struct{})
+	if !t.isRunning {
 
-	action()
+		t.isRunning = true
+		t.stopper = make(chan struct{})
 
-	for {
-		select {
-		case <-time.After(t.unit):
-			action()
-		case <-t.stopper:
-			return
+		action()
+
+		for {
+			select {
+			case <-time.After(t.unit):
+				action()
+			case <-t.stopper:
+				return
+			}
 		}
+
 	}
 
 }
 
 func (t *ticker) Stop() {
-	close(t.stopper)
+	if t.isRunning {
+		t.isRunning = false
+		close(t.stopper)
+	}
 }

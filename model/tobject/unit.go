@@ -6,9 +6,13 @@ import "time"
 //Unit can be implemented in implementation of gadget.Gadget to control the tick rate.
 type Unit time.Duration
 
+//Ms is Unit that refers to millisecond.
+//Sec is Unit that refers to second.
+//Min is Unit that refers to minute.
+//Hour is Unit that refers to hour.
 const (
-	Ms   = Unit(time.Millisecond) //Ms is Unit that refers to millisecond.
-	Sec  = Unit(time.Second)      //Sec is Unit that refers to second.
-	Min  = Unit(time.Minute)      //Min is Unit that refers to minute.
-	Hour = Unit(time.Hour)        //Hour is Unit that refers to hour.
+	Ms   = Unit(time.Millisecond)
+	Sec  = Unit(time.Second)
+	Min  = Unit(time.Minute)
+	Hour = Unit(time.Hour)
 )

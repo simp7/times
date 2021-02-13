@@ -1,5 +1,6 @@
 package action
 
+//EmptyAction is zero-value of action.
 var (
-	EmptyAction = NewAction(func(string) {}) //EmptyAction is zero-value of action.
+	EmptyAction = NewAction(func(string) {})
 )

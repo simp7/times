@@ -27,4 +27,5 @@ func (f *standardFormatter) Format(t tobject.Time) string {
 	} else {
 		return fmt.Sprintf("%d:%s:%s:%s", t.Day(), hour, min, sec)
 	}
+
 }

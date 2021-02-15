@@ -1,26 +1,27 @@
 package stopwatch
 
 import (
+	"github.com/simp7/times"
+	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/model/action"
-	"github.com/simp7/times/model/formatter"
-	"github.com/simp7/times/model/tobject"
+	"github.com/simp7/times/gadget/ticker"
+	"github.com/simp7/times/time"
 	"sync"
 )
 
 type stopwatch struct {
 	ticker    gadget.Ticker
-	present   tobject.Time
-	formatter formatter.TimeFormatter
-	unit      tobject.Unit
+	present   times.Time
+	formatter times.TimeFormatter
+	unit      times.Unit
 	once      sync.Once
 	isRunning bool
-	actions   action.Actions
+	actions   times.Actions
 }
 
 //New returns struct that implements Stopwatch.
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit tobject.Unit, formatter formatter.TimeFormatter) gadget.Stopwatch {
+func New(unit times.Unit, formatter times.TimeFormatter) gadget.Stopwatch {
 
 	s := new(stopwatch)
 
@@ -28,7 +29,7 @@ func New(unit tobject.Unit, formatter formatter.TimeFormatter) gadget.Stopwatch 
 	s.formatter = formatter
 	s.isRunning = false
 
-	s.ticker = gadget.NewTicker(unit)
+	s.ticker = ticker.NewTicker(unit)
 
 	s.Reset()
 
@@ -41,7 +42,7 @@ func (s *stopwatch) Start() {
 	s.work()
 }
 
-func (s *stopwatch) getAction() action.Action {
+func (s *stopwatch) getAction() times.Action {
 	return s.actions.ActionsWhen(s.present)
 }
 
@@ -73,7 +74,7 @@ func (s *stopwatch) Add(f func(string)) {
 	s.actions.Add(action.NewAction(f), nil)
 }
 
-func (s *stopwatch) AddAlarm(f func(string), when tobject.Time) {
+func (s *stopwatch) AddAlarm(f func(string), when times.Time) {
 	s.actions.Add(action.NewAction(f), when)
 }
 
@@ -81,10 +82,10 @@ func (s *stopwatch) Reset() {
 
 	s.actions = action.NewActions()
 
-	if s.unit == tobject.Ms {
-		s.present = tobject.Accurate(0, 0, 0, 0, 0)
+	if s.unit == times.Ms {
+		s.present = time.Accurate(0, 0, 0, 0, 0)
 	} else {
-		s.present = tobject.Standard(0, 0, 0, 0)
+		s.present = time.Standard(0, 0, 0, 0)
 	}
 
 }

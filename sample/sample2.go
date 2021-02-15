@@ -2,16 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/simp7/times"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/gadget/stopwatch"
-	"github.com/simp7/times/gadget/timer"
-	"github.com/simp7/times/model/tobject"
 	"github.com/simp7/times/sample/preset"
+	"github.com/simp7/times/time"
 	"os"
 	"strconv"
 )
 
-func recursiveCall(gadgets []gadget.Gadget, a1, a2 tobject.Time) {
+func recursiveCall(gadgets []times.Gadget, a1, a2 times.Time) {
 
 	if len(gadgets) == 0 {
 		return
@@ -39,16 +38,16 @@ func recursiveCall(gadgets []gadget.Gadget, a1, a2 tobject.Time) {
 
 }
 
-func changeStopwatchesToGadgets(stopwatches []stopwatch.Stopwatch) []gadget.Gadget {
-	gadgets := make([]gadget.Gadget, len(stopwatches))
+func changeStopwatchesToGadgets(stopwatches []gadget.Stopwatch) []times.Gadget {
+	gadgets := make([]times.Gadget, len(stopwatches))
 	for i := range stopwatches {
 		gadgets[i] = stopwatches[i]
 	}
 	return gadgets
 }
 
-func changeTimersToGadgets(timers []timer.Timer) []gadget.Gadget {
-	gadgets := make([]gadget.Gadget, len(timers))
+func changeTimersToGadgets(timers []gadget.Timer) []times.Gadget {
+	gadgets := make([]times.Gadget, len(timers))
 	for i := range timers {
 		gadgets[i] = timers[i]
 	}
@@ -72,10 +71,10 @@ func main() {
 		}
 	}
 
-	alarm1 := tobject.Standard(second, 0, 0, 0)
-	alarm2 := tobject.Standard(second*2, 0, 0, 0)
+	alarm1 := time.Standard(second, 0, 0, 0)
+	alarm2 := time.Standard(second*2, 0, 0, 0)
 
 	recursiveCall(changeStopwatchesToGadgets(preset.Stopwatches()), alarm1, alarm2)
-	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, tobject.StandardZero().SetSecond(0))
+	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, time.StandardZero().SetSecond(0))
 
 }

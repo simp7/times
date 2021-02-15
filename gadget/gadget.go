@@ -4,6 +4,13 @@ import (
 	"github.com/simp7/times"
 )
 
+//Ticker do function in specific period.
+//Ticker is core of other gadgets - clock, stopwatch, and timer.
+type Ticker interface {
+	Start(func()) //Start implement function and operate Ticker. When ticker ticks, function of parameter would be called.
+	Stop()        //Stop stops Ticker ticking.
+}
+
 //Clock is an interface that returns current time.
 type Clock interface {
 	times.Gadget

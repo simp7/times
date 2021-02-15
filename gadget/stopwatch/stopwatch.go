@@ -8,11 +8,6 @@ import (
 	"sync"
 )
 
-//Stopwatch is an interface that set deadline and runs until deadline has been passed or Stop is called.
-type Stopwatch interface {
-	gadget.Gadget
-}
-
 type stopwatch struct {
 	ticker    gadget.Ticker
 	present   tobject.Time
@@ -25,7 +20,7 @@ type stopwatch struct {
 
 //New returns struct that implements Stopwatch.
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit tobject.Unit, formatter formatter.TimeFormatter) Stopwatch {
+func New(unit tobject.Unit, formatter formatter.TimeFormatter) gadget.Stopwatch {
 
 	s := new(stopwatch)
 

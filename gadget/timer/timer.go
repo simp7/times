@@ -8,11 +8,6 @@ import (
 	"sync"
 )
 
-//Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
-type Timer interface {
-	gadget.Gadget
-}
-
 type timer struct {
 	ticker    gadget.Ticker
 	present   tobject.Time
@@ -26,7 +21,7 @@ type timer struct {
 
 //New returns struct that implements Timer.
 //parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
-func New(unit tobject.Unit, formatter formatter.TimeFormatter, deadline tobject.Time) Timer {
+func New(unit tobject.Unit, formatter formatter.TimeFormatter, deadline tobject.Time) gadget.Timer {
 
 	t := new(timer)
 

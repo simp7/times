@@ -9,11 +9,6 @@ import (
 	"time"
 )
 
-//Clock is an interface that returns current time.
-type Clock interface {
-	gadget.Gadget
-}
-
 type clock struct {
 	ticker    gadget.Ticker
 	present   tobject.Time
@@ -26,7 +21,7 @@ type clock struct {
 
 //New returns struct that implements Clock.
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit tobject.Unit, formatter formatter.TimeFormatter) Clock {
+func New(unit tobject.Unit, formatter formatter.TimeFormatter) gadget.Clock {
 
 	c := new(clock)
 

@@ -1,5 +1,7 @@
 package tobject
 
+import "errors"
+
 //Time is interface that indicate specific time.
 //Each Time should have time data and minimum Unit.
 type Time interface {
@@ -18,3 +20,8 @@ type Time interface {
 	SetDay(int) Time         //SetDay sets millisecond of this object. This function also returns object itself.
 	Serialize() string       //Serialize returns time data by string. This function is used for specifying time.
 }
+
+//ErrNegativeTime is called when struct that implements tobject.Time becomes negative
+var (
+	ErrNegativeTime = errors.New("time can't be negative")
+)

@@ -2,7 +2,6 @@ package tobject
 
 import (
 	"fmt"
-	"github.com/simp7/times/variables"
 	"time"
 )
 
@@ -44,7 +43,7 @@ func (t *standard) trim() {
 	t.trimIfSubtracted()
 
 	if t.Day() < 0 {
-		panic(variables.ErrNegativeTime)
+		panic(ErrNegativeTime)
 	}
 
 }
@@ -79,7 +78,6 @@ func (t *standard) trimIfSubtracted() {
 	}
 }
 
-//
 func (t *standard) Tick() {
 	t.second++
 	t.trim()

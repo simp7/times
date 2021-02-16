@@ -1,18 +1,27 @@
 package gadget
 
 import (
-	"github.com/simp7/times/model/tobject"
+	"github.com/simp7/times"
 )
 
-//Gadget is an interface for tools that uses time.
-//Each Gadget has minimum unit as tobject.Unit, and It has formatter.TimeFormatter to represent current times as string.
-//Examples of Gadget can be clock, timer, stopwatch.
-type Gadget interface {
-	Add(action func(current string))                         //Add adds function that would be called when duration of minimum unit has passed. Parameter @current in function is string-conversion of current time that inner function can uses.
-	AddAlarm(action func(current string), when tobject.Time) //AddAlarm adds function that would be called when Gadget reaches in selected time. Parameter @current in function is string-conversion of current time that inner function can uses.
-	Start()                                                  //Start runs Gadget.
-	Stop() string                                            //Stop calls Pause and Reset. It also returns string as current.
-	Reset()                                                  //Reset sets Gadget to the state when it firstly initialized.
-	Pause()                                                  //Pause stops ticker.
-	Present() string                                         //Present returns current time.
+//Ticker do function in specific period.
+//Ticker is core of other gadgets - clock, stopwatch, and timer.
+type Ticker interface {
+	Start(func()) //Start implement function and operate Ticker. When ticker ticks, function of parameter would be called.
+	Stop()        //Stop stops Ticker ticking.
+}
+
+//Clock is an interface that returns current time.
+type Clock interface {
+	times.Gadget
+}
+
+//Stopwatch is an interface that set deadline and runs until deadline has been passed or Stop is called.
+type Stopwatch interface {
+	times.Gadget
+}
+
+//Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
+type Timer interface {
+	times.Gadget
 }

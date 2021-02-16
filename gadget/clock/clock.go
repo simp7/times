@@ -1,32 +1,28 @@
 package clock
 
 import (
+	"github.com/simp7/times"
+	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/model/action"
-	"github.com/simp7/times/model/formatter"
-	"github.com/simp7/times/model/tobject"
+	"github.com/simp7/times/gadget/ticker"
+	"github.com/simp7/times/time"
 	"sync"
-	"time"
+	goTime "time"
 )
-
-//Clock is an interface that returns current time.
-type Clock interface {
-	gadget.Gadget
-}
 
 type clock struct {
 	ticker    gadget.Ticker
-	present   tobject.Time
-	formatter formatter.TimeFormatter
-	unit      tobject.Unit
+	present   times.Time
+	formatter times.TimeFormatter
+	unit      times.Unit
 	once      sync.Once
 	isRunning bool
-	actions   action.Actions
+	actions   times.Actions
 }
 
-//New returns struct that implements Clock.
+//New returns struct that implements gadget.Clock.
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit tobject.Unit, formatter formatter.TimeFormatter) Clock {
+func New(unit times.Unit, formatter times.TimeFormatter) gadget.Clock {
 
 	c := new(clock)
 
@@ -34,7 +30,7 @@ func New(unit tobject.Unit, formatter formatter.TimeFormatter) Clock {
 	c.formatter = formatter
 	c.isRunning = false
 
-	c.ticker = gadget.NewTicker(unit)
+	c.ticker = ticker.NewTicker(unit)
 
 	c.Reset()
 
@@ -48,7 +44,7 @@ func (c *clock) Start() {
 	c.work()
 }
 
-func (c *clock) getAction() action.Action {
+func (c *clock) getAction() times.Action {
 	return c.actions.ActionsWhen(c.present)
 }
 
@@ -79,7 +75,7 @@ func (c *clock) Add(f func(current string)) {
 	c.actions.Add(action.NewAction(f), nil)
 }
 
-func (c *clock) AddAlarm(f func(current string), when tobject.Time) {
+func (c *clock) AddAlarm(f func(current string), when times.Time) {
 	c.actions.Add(action.NewAction(f), when)
 }
 
@@ -89,10 +85,10 @@ func (c *clock) Reset() {
 }
 
 func (c *clock) sync() {
-	if c.unit == tobject.Ms {
-		c.present = tobject.AccurateFor(time.Now())
+	if c.unit == times.Ms {
+		c.present = time.AccurateFor(goTime.Now())
 	} else {
-		c.present = tobject.StandardFor(time.Now())
+		c.present = time.StandardFor(goTime.Now())
 	}
 }
 

@@ -1,32 +1,28 @@
 package timer
 
 import (
+	"github.com/simp7/times"
+	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/model/action"
-	"github.com/simp7/times/model/formatter"
-	"github.com/simp7/times/model/tobject"
+	"github.com/simp7/times/gadget/ticker"
+	"github.com/simp7/times/time"
 	"sync"
 )
 
-//Timer is an interface that set deadline and runs until deadline has been passed or Stop is called.
-type Timer interface {
-	gadget.Gadget
-}
-
 type timer struct {
 	ticker    gadget.Ticker
-	present   tobject.Time
-	deadline  tobject.Time
-	formatter formatter.TimeFormatter
-	unit      tobject.Unit
+	present   times.Time
+	deadline  times.Time
+	formatter times.TimeFormatter
+	unit      times.Unit
 	once      sync.Once
 	isRunning bool
-	actions   action.Actions
+	actions   times.Actions
 }
 
-//New returns struct that implements Timer.
+//New returns struct that implements gadget.Timer.
 //parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
-func New(unit tobject.Unit, formatter formatter.TimeFormatter, deadline tobject.Time) Timer {
+func New(unit times.Unit, formatter times.TimeFormatter, deadline times.Time) gadget.Timer {
 
 	t := new(timer)
 
@@ -35,7 +31,7 @@ func New(unit tobject.Unit, formatter formatter.TimeFormatter, deadline tobject.
 	t.deadline = deadline
 	t.isRunning = false
 
-	t.ticker = gadget.NewTicker(unit)
+	t.ticker = ticker.NewTicker(unit)
 
 	t.Reset()
 
@@ -48,7 +44,7 @@ func (t *timer) Start() {
 	t.work()
 }
 
-func (t *timer) getAction() action.Action {
+func (t *timer) getAction() times.Action {
 	return t.actions.ActionsWhen(t.present)
 }
 
@@ -80,17 +76,17 @@ func (t *timer) Add(f func(string)) {
 	t.actions.Add(action.NewAction(f), nil)
 }
 
-func (t *timer) AddAlarm(f func(string), when tobject.Time) {
+func (t *timer) AddAlarm(f func(string), when times.Time) {
 	t.actions.Add(action.NewAction(f), when)
 }
 
 func (t *timer) Reset() {
 
 	preset := t.deadline
-	if t.unit == tobject.Ms {
-		t.present = tobject.AccurateZero()
+	if t.unit == times.Ms {
+		t.present = time.AccurateZero()
 	} else {
-		t.present = tobject.StandardZero()
+		t.present = time.StandardZero()
 	}
 
 	t.present.SetMilliSecond(preset.MilliSecond()).
@@ -100,19 +96,19 @@ func (t *timer) Reset() {
 		SetDay(preset.Day())
 
 	t.actions = action.NewActions()
-	t.AddAlarm(func(string) { t.Stop() }, tobject.StandardZero())
+	t.AddAlarm(func(string) { t.Stop() }, time.StandardZero())
 
 }
 
 func (t *timer) resetPresent() {
 
-	var result tobject.Time
+	var result times.Time
 	preset := t.deadline
 
-	if t.unit == tobject.Ms {
-		result = tobject.AccurateZero()
+	if t.unit == times.Ms {
+		result = time.AccurateZero()
 	} else {
-		result = tobject.StandardZero()
+		result = time.StandardZero()
 	}
 
 	result.SetMilliSecond(preset.MilliSecond())

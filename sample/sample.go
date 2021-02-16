@@ -2,26 +2,23 @@ package main
 
 import (
 	"fmt"
+	"github.com/simp7/times"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/gadget/stopwatch"
-	"github.com/simp7/times/gadget/timer"
-	"github.com/simp7/times/model/tobject"
 	"github.com/simp7/times/sample/preset"
+	"github.com/simp7/times/time"
 	"os"
 	"strconv"
 )
 
-func test1Skeleton(g gadget.Gadget, someFunc func()) {
-
+func test1Skeleton(g times.Gadget, someFunc func()) {
 	g.Add(func(current string) {
 		fmt.Println(current)
 	})
 	someFunc()
 	g.Start()
-
 }
 
-func testStopwatch1(s stopwatch.Stopwatch, t int) {
+func testStopwatch1(s gadget.Stopwatch, t int) {
 	test1Skeleton(s, func() {
 		s.AddAlarm(func(current string) {
 			fmt.Println("Finished!")
@@ -30,11 +27,11 @@ func testStopwatch1(s stopwatch.Stopwatch, t int) {
 	})
 }
 
-func testTimer1(t timer.Timer) {
+func testTimer1(t gadget.Timer) {
 	test1Skeleton(t, func() {
 		t.AddAlarm(func(string) {
 			fmt.Println("Finished!")
-		}, tobject.StandardZero())
+		}, time.StandardZero())
 	})
 }
 

@@ -1,15 +1,16 @@
 package timer
 
 import (
-	"github.com/simp7/times/model/formatter"
-	"github.com/simp7/times/model/tobject"
+	"github.com/simp7/times"
+	"github.com/simp7/times/formatter"
+	"github.com/simp7/times/gadget"
 )
 
-//Standard returns Timer that implements tobject.Standard and formatter.Standard adopting minimum unit as second.
-//Hangul returns Timer that implements tobject.Standard and formatter.Hangul adopting minimum unit as second.
-//Detail returns Timer that implements tobject.Accurate and formatter.Detail adopting minimum unit as millisecond.
+//Standard returns gadget.Timer that implements time.Standard and formatter.Standard adopting minimum unit as second.
+//Hangul returns gadget.Timer that implements time.Standard and formatter.Hangul adopting minimum unit as second.
+//Detail returns gadget.Timer that implements time.Accurate and formatter.Detail adopting minimum unit as millisecond.
 var (
-	Standard = func(t tobject.Time) Timer { return New(tobject.Sec, formatter.Standard(), t) }
-	Hangul   = func(t tobject.Time) Timer { return New(tobject.Sec, formatter.Hangul(), t) }
-	Detail   = func(t tobject.Time) Timer { return New(tobject.Ms, formatter.Detail(), t) }
+	Standard = func(t times.Time) gadget.Timer { return New(times.Sec, formatter.Standard(), t) }
+	Hangul   = func(t times.Time) gadget.Timer { return New(times.Sec, formatter.Hangul(), t) }
+	Detail   = func(t times.Time) gadget.Timer { return New(times.Ms, formatter.Detail(), t) }
 )

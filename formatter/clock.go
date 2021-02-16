@@ -9,7 +9,7 @@ type clockFormatter struct {
 	notation12 bool
 }
 
-//Clock returns one of struct that implements TimeFormatter.
+//Clock returns one of struct that implements times.TimeFormatter.
 //Clock shows time like 11:23 PM or 23:23, And It is up to notation12 parameter.
 func Clock(notation12 bool) times.TimeFormatter {
 	f := new(clockFormatter)

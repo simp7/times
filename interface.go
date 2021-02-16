@@ -3,11 +3,11 @@ package times
 import "time"
 
 //Gadget is an interface for tools that uses time.
-//Each Gadget has minimum unit as time.Unit, and It has formatter.TimeFormatter to represent current times as string.
+//Each Gadget has minimum unit as time.Unit, and It has times.TimeFormatter to represent current times as string.
 //Examples of Gadget can be clock, timer, stopwatch.
 type Gadget interface {
-	Add(action func(current string))                 //Add adds function that would be called when duration of minimum unit has passed. Parameter @current in function is string-conversion of current time that inner function can uses.
-	AddAlarm(action func(current string), when Time) //AddAlarm adds function that would be called when Gadget reaches in selected time. Parameter @current in function is string-conversion of current time that inner function can uses.
+	Add(action func(current string))                 //Add adds function that would be called when duration of minimum unit has passed. Parameter current in function is string-conversion of current time that inner function can uses.
+	AddAlarm(action func(current string), when Time) //AddAlarm adds function that would be called when Gadget reaches in selected time. Parameter current in function is string-conversion of current time that inner function can uses.
 	Start()                                          //Start runs Gadget.
 	Stop() string                                    //Stop calls Pause and Reset. It also returns string as current.
 	Reset()                                          //Reset sets Gadget to the state when it firstly initialized.
@@ -16,21 +16,21 @@ type Gadget interface {
 }
 
 //Action is an interface that includes function.
-//Action would be used in Actions and gadget.Gadget.
+//Action would be used in Actions and times.Gadget.
 type Action interface {
 	Add(func(string)) Action //Add returns action that has current function of this object and parameter function.
 	Do(string)               //Do executes function that current object has.
 }
 
-//Actions is an interface that include a set of Action.
-//Actions would be used in gadget.Gadget.
+//Actions is an interface that includes a set of Action.
+//Actions would be used in times.Gadget.
 type Actions interface {
 	Add(Action, Time)        //Add adds Action to Actions in designated time.
 	ActionsWhen(Time) Action //ActionsWhen returns Action in designated time.
 }
 
 //TimeFormatter is an interface that converts Time into string.
-//TimeFormatter is used in gadgets for the use of showing times.
+//TimeFormatter is used in times.Gadget for the use of showing times.
 type TimeFormatter interface {
 	Format(t Time) string //Format converts Time into string. This function can be used in structs that implement gadget.Gadget
 }
@@ -55,7 +55,7 @@ type Time interface {
 }
 
 //Unit is a type that redirection of time.Duration.
-//Unit can be implemented in implementation of gadget.Gadget to control the tick rate.
+//Unit can be implemented in implementation of times.Gadget to control the tick rate.
 type Unit time.Duration
 
 //Ms is Unit that refers to millisecond.

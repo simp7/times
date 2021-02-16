@@ -11,9 +11,9 @@ type accurate struct {
 	ms int
 }
 
-//Accurate is function that returns Time object.
+//Accurate is function that returns the struct that implements times.Time.
 //Minimum unit of Accurate is second.
-//As Accurate returns the most-accurate Time object, It is encouraged to compare Time object with this.
+//As Accurate returns the most-accurate times.Time object, It is encouraged to compare other object that implements times.Time with this.
 func Accurate(millisecond, second, minute, hour, day int) times.Time {
 
 	a := new(accurate)
@@ -25,7 +25,7 @@ func Accurate(millisecond, second, minute, hour, day int) times.Time {
 
 }
 
-// AccurateFor is function that gets time.Time object and convert it to Time object.
+// AccurateFor is function that gets built-in time.Time object and convert it to the struct that implements times.Time. object.
 // The other feature of AccurateFor is same as Accurate.
 func AccurateFor(t time.Time) times.Time {
 	return Accurate(t.Nanosecond()/1000000, t.Second(), t.Minute(), t.Hour(), t.Day())

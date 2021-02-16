@@ -12,8 +12,8 @@ type ticker struct {
 	isRunning bool
 }
 
-//NewTicker Returns Ticker that ticks in rate of unit.
-//Parameter unit determines the rate of ticker.
+//NewTicker returns struct that implements gadget.Ticker.
+//Returned ticker ticks in rate of unit and parameter determines the rate of ticker.
 func NewTicker(unit times.Unit) gadget.Ticker {
 	t := new(ticker)
 	t.unit = time.Duration(unit)

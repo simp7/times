@@ -7,7 +7,7 @@ import (
 	"github.com/simp7/times/gadget/ticker"
 	"github.com/simp7/times/time"
 	"sync"
-	gotime "time"
+	goTime "time"
 )
 
 type clock struct {
@@ -20,7 +20,7 @@ type clock struct {
 	actions   times.Actions
 }
 
-//New returns struct that implements Clock.
+//New returns struct that implements gadget.Clock.
 //parameter unit is for ticking rate and formatter for formatting time to string.
 func New(unit times.Unit, formatter times.TimeFormatter) gadget.Clock {
 
@@ -86,9 +86,9 @@ func (c *clock) Reset() {
 
 func (c *clock) sync() {
 	if c.unit == times.Ms {
-		c.present = time.AccurateFor(gotime.Now())
+		c.present = time.AccurateFor(goTime.Now())
 	} else {
-		c.present = time.StandardFor(gotime.Now())
+		c.present = time.StandardFor(goTime.Now())
 	}
 }
 

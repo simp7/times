@@ -20,7 +20,7 @@ type timer struct {
 	actions   times.Actions
 }
 
-//New returns struct that implements Timer.
+//New returns struct that implements gadget.Timer.
 //parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
 func New(unit times.Unit, formatter times.TimeFormatter, deadline times.Time) gadget.Timer {
 

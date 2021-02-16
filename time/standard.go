@@ -11,7 +11,7 @@ type standard struct {
 	day                  int
 }
 
-//Standard is function that returns Time object.
+//Standard is function that returns the struct that implements times.Time.
 //Minimum unit of Standard is second.
 func Standard(second, minute, hour, day int) times.Time {
 
@@ -26,7 +26,7 @@ func Standard(second, minute, hour, day int) times.Time {
 
 }
 
-// StandardFor is function that gets time.Time object and convert it to Time object.
+// StandardFor is function that gets built-in time.Time object and convert it to times.Time object.
 // The other feature of StandardFor is same as Standard.
 func StandardFor(t time.Time) times.Time {
 	return Standard(t.Second(), t.Minute(), t.Hour(), t.Day())

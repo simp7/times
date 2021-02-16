@@ -8,7 +8,7 @@ import (
 type standardFormatter struct {
 }
 
-//Standard returns one of struct that implements TimeFormatter.
+//Standard returns one of struct that implements times.TimeFormatter.
 //Standard shows time like 0:00, And It can express time unit from second to day.
 func Standard() times.TimeFormatter {
 	return new(standardFormatter)

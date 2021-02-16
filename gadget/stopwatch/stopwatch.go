@@ -19,7 +19,7 @@ type stopwatch struct {
 	actions   times.Actions
 }
 
-//New returns struct that implements Stopwatch.
+//New returns struct that implements gadget.Stopwatch.
 //parameter unit is for ticking rate and formatter for formatting time to string.
 func New(unit times.Unit, formatter times.TimeFormatter) gadget.Stopwatch {
 

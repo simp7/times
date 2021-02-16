@@ -8,7 +8,7 @@ type detailFormatter struct {
 	standardFormatter
 }
 
-//Detail returns one of struct that implements TimeFormatter.
+//Detail returns one of struct that implements times.TimeFormatter.
 //Detail shows time like 0:00:000, And It can express time unit from millisecond to day.
 func Detail() times.TimeFormatter {
 	return new(detailFormatter)

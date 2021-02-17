@@ -5,19 +5,19 @@ import (
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/gadget/stopwatch"
 	"github.com/simp7/times/gadget/timer"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/ttime"
 )
 
-//GetStandard returns time.Standard object that are set to seconds by parameter sec.
-//Notice: GetStandard is just for sample. We recommend you to use time.Standard function as a substitute.
+//GetStandard returns ttime.Standard object that are set to seconds by parameter sec.
+//Notice: GetStandard is just for sample. We recommend you to use ttime.Standard function as a substitute.
 func GetStandard(sec int) times.Time {
-	return time.StandardZero().SetSecond(sec)
+	return ttime.StandardZero().SetSecond(sec)
 }
 
-//GetAccurate returns time.Accurate object that are set to seconds by parameter sec.
-//Notice: GetAccurate is just for sample. We recommend you to use time.Accurate function as a substitute.
+//GetAccurate returns ttime.Accurate object that are set to seconds by parameter sec.
+//Notice: GetAccurate is just for sample. We recommend you to use ttime.Accurate function as a substitute.
 func GetAccurate(sec int) times.Time {
-	return time.AccurateZero().SetSecond(sec)
+	return ttime.AccurateZero().SetSecond(sec)
 }
 
 //Stopwatches returns an array of gadget.Stopwatch.

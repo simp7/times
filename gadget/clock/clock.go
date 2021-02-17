@@ -5,7 +5,7 @@ import (
 	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/gadget/ticker"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/ttime"
 	"sync"
 	goTime "time"
 )
@@ -86,9 +86,9 @@ func (c *clock) Reset() {
 
 func (c *clock) sync() {
 	if c.unit == times.Ms {
-		c.present = time.AccurateFor(goTime.Now())
+		c.present = ttime.AccurateFor(goTime.Now())
 	} else {
-		c.present = time.StandardFor(goTime.Now())
+		c.present = ttime.StandardFor(goTime.Now())
 	}
 }
 

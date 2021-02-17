@@ -5,7 +5,7 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/sample/preset"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/ttime"
 	"os"
 	"strconv"
 )
@@ -31,7 +31,7 @@ func testTimer1(t gadget.Timer) {
 	test1Skeleton(t, func() {
 		t.AddAlarm(func(string) {
 			fmt.Println("Finished!")
-		}, time.StandardZero())
+		}, ttime.StandardZero())
 	})
 }
 

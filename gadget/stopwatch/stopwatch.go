@@ -5,7 +5,7 @@ import (
 	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/gadget/ticker"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/ttime"
 	"sync"
 )
 
@@ -83,9 +83,9 @@ func (s *stopwatch) Reset() {
 	s.actions = action.NewActions()
 
 	if s.unit == times.Ms {
-		s.present = time.Accurate(0, 0, 0, 0, 0)
+		s.present = ttime.Accurate(0, 0, 0, 0, 0)
 	} else {
-		s.present = time.Standard(0, 0, 0, 0)
+		s.present = ttime.Standard(0, 0, 0, 0)
 	}
 
 }

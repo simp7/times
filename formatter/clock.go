@@ -25,7 +25,7 @@ func (c *clockFormatter) Format(t times.Time) string {
 		hour, suffix := decomposeHour(t.Hour())
 		return fmt.Sprintf("%d:%s %s", hour, result, suffix)
 	}
-	return fmt.Sprintf("%d:%s", t.Hour(), result)
+	return fmt.Sprintf("%s:%s", doubleDigitFormat(t.Hour()), result)
 
 }
 

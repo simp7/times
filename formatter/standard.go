@@ -3,6 +3,7 @@ package formatter
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"strconv"
 )
 
 type standardFormatter struct {
@@ -14,18 +15,27 @@ func Standard() times.TimeFormatter {
 	return new(standardFormatter)
 }
 
-func (f *standardFormatter) Format(t times.Time) string {
+func (f *standardFormatter) Format(t times.Time) (result string) {
+
+	addResult := func(data string) {
+		result = fmt.Sprintf("%s:", data) + result
+	}
 
 	sec := doubleDigitFormat(t.Second())
 	min := doubleDigitFormat(t.Minute())
 	hour := doubleDigitFormat(t.Hour())
+	day := strconv.Itoa(t.Day())
 
-	if t.Hour() == 0 {
-		return fmt.Sprintf("%s:%s", min, sec)
-	} else if t.Day() == 0 {
-		return fmt.Sprintf("%s:%s:%s", hour, min, sec)
-	} else {
-		return fmt.Sprintf("%d:%s:%s:%s", t.Day(), hour, min, sec)
+	result = fmt.Sprintf("%s:%s", min, sec)
+
+	if t.Hour() == 0 && t.Day() == 0 {
+		return
 	}
+	addResult(hour)
+	if t.Day() != 0 {
+		addResult(day)
+	}
+
+	return
 
 }

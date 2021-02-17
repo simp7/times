@@ -3,7 +3,7 @@ package times
 import "time"
 
 //Gadget is an interface for tools that uses time.
-//Each Gadget has minimum unit as time.Unit, and It has times.TimeFormatter to represent current times as string.
+//Each Gadget has minimum unit as times.Unit, and It has times.TimeFormatter to represent current time as string.
 //Examples of Gadget can be clock, timer, stopwatch.
 type Gadget interface {
 	Add(action func(current string))                 //Add adds function that would be called when duration of minimum unit has passed. Parameter current in function is string-conversion of current time that inner function can uses.

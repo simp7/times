@@ -11,7 +11,7 @@ type Ticker interface {
 	Stop()        //Stop stops Ticker ticking.
 }
 
-//Clock is an interface that returns current time.
+//Clock is an interface that returns current ttime.
 type Clock interface {
 	times.Gadget
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/sample/preset"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/ttime"
 	"os"
 	"strconv"
 )
@@ -71,10 +71,10 @@ func main() {
 		}
 	}
 
-	alarm1 := time.Standard(second, 0, 0, 0)
-	alarm2 := time.Standard(second*2, 0, 0, 0)
+	alarm1 := ttime.Standard(second, 0, 0, 0)
+	alarm2 := ttime.Standard(second*2, 0, 0, 0)
 
 	recursiveCall(changeStopwatchesToGadgets(preset.Stopwatches()), alarm1, alarm2)
-	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, time.StandardZero().SetSecond(0))
+	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, ttime.StandardZero().SetSecond(0))
 
 }

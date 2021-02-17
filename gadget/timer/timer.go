@@ -5,7 +5,7 @@ import (
 	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/gadget/ticker"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/ttime"
 	"sync"
 )
 
@@ -84,9 +84,9 @@ func (t *timer) Reset() {
 
 	preset := t.deadline
 	if t.unit == times.Ms {
-		t.present = time.AccurateZero()
+		t.present = ttime.AccurateZero()
 	} else {
-		t.present = time.StandardZero()
+		t.present = ttime.StandardZero()
 	}
 
 	t.present.SetMilliSecond(preset.MilliSecond()).
@@ -96,7 +96,7 @@ func (t *timer) Reset() {
 		SetDay(preset.Day())
 
 	t.actions = action.NewActions()
-	t.AddAlarm(func(string) { t.Stop() }, time.StandardZero())
+	t.AddAlarm(func(string) { t.Stop() }, ttime.StandardZero())
 
 }
 
@@ -106,9 +106,9 @@ func (t *timer) resetPresent() {
 	preset := t.deadline
 
 	if t.unit == times.Ms {
-		result = time.AccurateZero()
+		result = ttime.AccurateZero()
 	} else {
-		result = time.StandardZero()
+		result = ttime.StandardZero()
 	}
 
 	result.SetMilliSecond(preset.MilliSecond())

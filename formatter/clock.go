@@ -30,11 +30,20 @@ func (c *clockFormatter) Format(t times.Time) string {
 }
 
 func decomposeHour(hour int) (result int, suffix string) {
+
 	result = hour
 	suffix = "AM"
-	if hour > 12 {
+
+	switch {
+	case hour >= 13:
 		result -= 12
+		fallthrough
+	case hour >= 12:
 		suffix = "PM"
+	case hour == 0:
+		result = 12
 	}
+
 	return
+
 }

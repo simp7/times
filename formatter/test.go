@@ -8,7 +8,7 @@ import (
 )
 
 func standardPreset() []times.Time {
-	return []times.Time{ttime.StandardZero(), ttime.Standard(5, 0, 0, 0), ttime.Standard(3, 10, 0, 0), ttime.Standard(1, 2, 3, 0), ttime.Standard(1, 2, 3, 4), ttime.Standard(10, 9, 0, 8), ttime.Standard(0, 9, 18, 27)}
+	return []times.Time{ttime.StandardZero(), ttime.Standard(5, 0, 0, 0), ttime.Standard(3, 10, 0, 0), ttime.Standard(1, 2, 3, 0), ttime.Standard(1, 2, 3, 4), ttime.Standard(10, 9, 0, 8), ttime.Standard(0, 9, 18, 27), ttime.Accurate(79, 0, 30, 12, 4)}
 }
 
 func accuratePreset() []times.Time {

@@ -4,25 +4,24 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/gadget/ticker"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/timeObject"
 	"sync"
-	goTime "time"
+	"time"
 )
 
 type clock struct {
-	ticker    gadget.Ticker
+	ticker    *gadget.Ticker
 	present   times.Time
 	formatter times.TimeFormatter
-	unit      times.Unit
+	unit      time.Duration
 	once      sync.Once
 	isRunning bool
 	actions   times.Actions
 }
 
-//New returns struct that implements gadget.Clock.
+//New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit times.Unit, formatter times.TimeFormatter) gadget.Clock {
+func New(unit time.Duration, formatter times.TimeFormatter) times.Gadget {
 
 	c := new(clock)
 
@@ -30,7 +29,7 @@ func New(unit times.Unit, formatter times.TimeFormatter) gadget.Clock {
 	c.formatter = formatter
 	c.isRunning = false
 
-	c.ticker = ticker.NewTicker(unit)
+	c.ticker = gadget.NewTicker(unit)
 
 	c.Reset()
 
@@ -85,10 +84,10 @@ func (c *clock) Reset() {
 }
 
 func (c *clock) sync() {
-	if c.unit == times.Ms {
-		c.present = time.AccurateFor(goTime.Now())
+	if c.unit == time.Millisecond {
+		c.present = timeObject.AccurateFor(time.Now())
 	} else {
-		c.present = time.StandardFor(goTime.Now())
+		c.present = timeObject.StandardFor(time.Now())
 	}
 }
 

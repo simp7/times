@@ -1,7 +1,5 @@
 package times
 
-import "time"
-
 //Gadget is an interface for tools that uses time.
 //Each Gadget has minimum unit as time.Unit, and It has times.TimeFormatter to represent current times as string.
 //Examples of Gadget can be clock, timer, stopwatch.
@@ -41,8 +39,8 @@ type Time interface {
 	Tick()                   //Tick is called when time passed. This function add minimum Unit of this object.
 	Rewind()                 //Rewind is called when time has been rewound. This function subtract minimum Unit of this object.
 	MilliSecond() int        //MilliSecond returns millisecond of this object.
-	Second() int             // Second returns second of this object.
-	Minute() int             // Minute returns minute of this object.
+	Second() int             //Second returns second of this object.
+	Minute() int             //Minute returns minute of this object.
 	Hour() int               //Hour returns hour of this object.
 	Day() int                //Day returns day of this object.
 	Equal(to Time) bool      //Equal returns true when time of this object equals another one.
@@ -53,18 +51,3 @@ type Time interface {
 	SetDay(int) Time         //SetDay sets millisecond of this object. This function also returns object itself.
 	Serialize() string       //Serialize returns time data by string. This function is used for specifying time.
 }
-
-//Unit is a type that redirection of time.Duration.
-//Unit can be implemented in implementation of times.Gadget to control the tick rate.
-type Unit time.Duration
-
-//Ms is Unit that refers to millisecond.
-//Sec is Unit that refers to second.
-//Min is Unit that refers to minute.
-//Hour is Unit that refers to hour.
-const (
-	Ms   = Unit(time.Millisecond)
-	Sec  = Unit(time.Second)
-	Min  = Unit(time.Minute)
-	Hour = Unit(time.Hour)
-)

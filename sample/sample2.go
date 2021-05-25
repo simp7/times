@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/simp7/times"
-	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/sample/preset"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/timeObject"
 	"os"
 	"strconv"
 )
@@ -38,7 +37,7 @@ func recursiveCall(gadgets []times.Gadget, a1, a2 times.Time) {
 
 }
 
-func changeStopwatchesToGadgets(stopwatches []gadget.Stopwatch) []times.Gadget {
+func changeStopwatchesToGadgets(stopwatches []times.Gadget) []times.Gadget {
 	gadgets := make([]times.Gadget, len(stopwatches))
 	for i := range stopwatches {
 		gadgets[i] = stopwatches[i]
@@ -46,7 +45,7 @@ func changeStopwatchesToGadgets(stopwatches []gadget.Stopwatch) []times.Gadget {
 	return gadgets
 }
 
-func changeTimersToGadgets(timers []gadget.Timer) []times.Gadget {
+func changeTimersToGadgets(timers []times.Gadget) []times.Gadget {
 	gadgets := make([]times.Gadget, len(timers))
 	for i := range timers {
 		gadgets[i] = timers[i]
@@ -71,10 +70,10 @@ func main() {
 		}
 	}
 
-	alarm1 := time.Standard(second, 0, 0, 0)
-	alarm2 := time.Standard(second*2, 0, 0, 0)
+	alarm1 := timeObject.Standard(second, 0, 0, 0)
+	alarm2 := timeObject.Standard(second*2, 0, 0, 0)
 
 	recursiveCall(changeStopwatchesToGadgets(preset.Stopwatches()), alarm1, alarm2)
-	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, time.StandardZero().SetSecond(0))
+	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, timeObject.StandardZero().SetSecond(0))
 
 }

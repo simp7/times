@@ -4,25 +4,25 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/gadget/ticker"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/timeObject"
 	"sync"
+	"time"
 )
 
 type timer struct {
-	ticker    gadget.Ticker
+	ticker    *gadget.Ticker
 	present   times.Time
 	deadline  times.Time
 	formatter times.TimeFormatter
-	unit      times.Unit
+	unit      time.Duration
 	once      sync.Once
 	isRunning bool
 	actions   times.Actions
 }
 
-//New returns struct that implements gadget.Timer.
+//New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
-func New(unit times.Unit, formatter times.TimeFormatter, deadline times.Time) gadget.Timer {
+func New(unit time.Duration, formatter times.TimeFormatter, deadline times.Time) times.Gadget {
 
 	t := new(timer)
 
@@ -31,7 +31,7 @@ func New(unit times.Unit, formatter times.TimeFormatter, deadline times.Time) ga
 	t.deadline = deadline
 	t.isRunning = false
 
-	t.ticker = ticker.NewTicker(unit)
+	t.ticker = gadget.NewTicker(unit)
 
 	t.Reset()
 
@@ -83,10 +83,10 @@ func (t *timer) AddAlarm(f func(string), when times.Time) {
 func (t *timer) Reset() {
 
 	preset := t.deadline
-	if t.unit == times.Ms {
-		t.present = time.AccurateZero()
+	if t.unit == time.Millisecond {
+		t.present = timeObject.AccurateZero()
 	} else {
-		t.present = time.StandardZero()
+		t.present = timeObject.StandardZero()
 	}
 
 	t.present.SetMilliSecond(preset.MilliSecond()).
@@ -96,7 +96,7 @@ func (t *timer) Reset() {
 		SetDay(preset.Day())
 
 	t.actions = action.NewActions()
-	t.AddAlarm(func(string) { t.Stop() }, time.StandardZero())
+	t.AddAlarm(func(string) { t.Stop() }, timeObject.StandardZero())
 
 }
 
@@ -105,10 +105,10 @@ func (t *timer) resetPresent() {
 	var result times.Time
 	preset := t.deadline
 
-	if t.unit == times.Ms {
-		result = time.AccurateZero()
+	if t.unit == time.Millisecond {
+		result = timeObject.AccurateZero()
 	} else {
-		result = time.StandardZero()
+		result = timeObject.StandardZero()
 	}
 
 	result.SetMilliSecond(preset.MilliSecond())

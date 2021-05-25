@@ -1,27 +1,25 @@
-package ticker
+package gadget
 
 import (
-	"github.com/simp7/times"
-	"github.com/simp7/times/gadget"
 	"time"
 )
 
-type ticker struct {
+type Ticker struct {
 	unit      time.Duration
 	stopper   chan struct{}
 	isRunning bool
 }
 
 //NewTicker returns struct that implements gadget.Ticker.
-//Returned ticker ticks in rate of unit and parameter determines the rate of ticker.
-func NewTicker(unit times.Unit) gadget.Ticker {
-	t := new(ticker)
-	t.unit = time.Duration(unit)
+//Returned Ticker ticks in rate of unit and parameter determines the rate of Ticker.
+func NewTicker(unit time.Duration) *Ticker {
+	t := new(Ticker)
+	t.unit = unit
 	t.isRunning = false
 	return t
 }
 
-func (t *ticker) Start(action func()) {
+func (t *Ticker) Start(action func()) {
 
 	if !t.isRunning {
 
@@ -43,7 +41,7 @@ func (t *ticker) Start(action func()) {
 
 }
 
-func (t *ticker) Stop() {
+func (t *Ticker) Stop() {
 	if t.isRunning {
 		t.isRunning = false
 		close(t.stopper)

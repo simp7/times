@@ -4,24 +4,24 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/gadget/ticker"
-	"github.com/simp7/times/time"
+	"github.com/simp7/times/timeObject"
 	"sync"
+	"time"
 )
 
 type stopwatch struct {
-	ticker    gadget.Ticker
+	ticker    *gadget.Ticker
 	present   times.Time
 	formatter times.TimeFormatter
-	unit      times.Unit
+	unit      time.Duration
 	once      sync.Once
 	isRunning bool
 	actions   times.Actions
 }
 
-//New returns struct that implements gadget.Stopwatch.
+//New returns struct that implements times.Gadget
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit times.Unit, formatter times.TimeFormatter) gadget.Stopwatch {
+func New(unit time.Duration, formatter times.TimeFormatter) times.Gadget {
 
 	s := new(stopwatch)
 
@@ -29,7 +29,7 @@ func New(unit times.Unit, formatter times.TimeFormatter) gadget.Stopwatch {
 	s.formatter = formatter
 	s.isRunning = false
 
-	s.ticker = ticker.NewTicker(unit)
+	s.ticker = gadget.NewTicker(unit)
 
 	s.Reset()
 
@@ -82,10 +82,10 @@ func (s *stopwatch) Reset() {
 
 	s.actions = action.NewActions()
 
-	if s.unit == times.Ms {
-		s.present = time.Accurate(0, 0, 0, 0, 0)
+	if s.unit == time.Millisecond {
+		s.present = timeObject.Accurate(0, 0, 0, 0, 0)
 	} else {
-		s.present = time.Standard(0, 0, 0, 0)
+		s.present = timeObject.Standard(0, 0, 0, 0)
 	}
 
 }

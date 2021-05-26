@@ -2,9 +2,9 @@ package timer
 
 import (
 	"github.com/simp7/times"
-	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/timeObject"
+	"github.com/simp7/times/gadget/action"
+	"github.com/simp7/times/timeobject"
 	"sync"
 	"time"
 )
@@ -84,9 +84,9 @@ func (t *timer) Reset() {
 
 	preset := t.deadline
 	if t.unit == time.Millisecond {
-		t.present = timeObject.AccurateZero()
+		t.present = timeobject.AccurateZero()
 	} else {
-		t.present = timeObject.StandardZero()
+		t.present = timeobject.StandardZero()
 	}
 
 	t.present.SetMilliSecond(preset.MilliSecond()).
@@ -96,7 +96,7 @@ func (t *timer) Reset() {
 		SetDay(preset.Day())
 
 	t.actions = action.NewActions()
-	t.AddAlarm(func(string) { t.Stop() }, timeObject.StandardZero())
+	t.AddAlarm(func(string) { t.Stop() }, timeobject.StandardZero())
 
 }
 
@@ -106,9 +106,9 @@ func (t *timer) resetPresent() {
 	preset := t.deadline
 
 	if t.unit == time.Millisecond {
-		result = timeObject.AccurateZero()
+		result = timeobject.AccurateZero()
 	} else {
-		result = timeObject.StandardZero()
+		result = timeobject.StandardZero()
 	}
 
 	result.SetMilliSecond(preset.MilliSecond())

@@ -2,9 +2,9 @@ package clock
 
 import (
 	"github.com/simp7/times"
-	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/timeObject"
+	"github.com/simp7/times/gadget/action"
+	"github.com/simp7/times/timeobject"
 	"sync"
 	"time"
 )
@@ -85,9 +85,9 @@ func (c *clock) Reset() {
 
 func (c *clock) sync() {
 	if c.unit == time.Millisecond {
-		c.present = timeObject.AccurateFor(time.Now())
+		c.present = timeobject.AccurateFor(time.Now())
 	} else {
-		c.present = timeObject.StandardFor(time.Now())
+		c.present = timeobject.StandardFor(time.Now())
 	}
 }
 

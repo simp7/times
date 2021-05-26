@@ -2,9 +2,9 @@ package stopwatch
 
 import (
 	"github.com/simp7/times"
-	"github.com/simp7/times/action"
 	"github.com/simp7/times/gadget"
-	"github.com/simp7/times/timeObject"
+	"github.com/simp7/times/gadget/action"
+	"github.com/simp7/times/timeobject"
 	"sync"
 	"time"
 )
@@ -83,9 +83,9 @@ func (s *stopwatch) Reset() {
 	s.actions = action.NewActions()
 
 	if s.unit == time.Millisecond {
-		s.present = timeObject.Accurate(0, 0, 0, 0, 0)
+		s.present = timeobject.Accurate(0, 0, 0, 0, 0)
 	} else {
-		s.present = timeObject.Standard(0, 0, 0, 0)
+		s.present = timeobject.Standard(0, 0, 0, 0)
 	}
 
 }

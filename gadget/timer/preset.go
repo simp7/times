@@ -6,9 +6,9 @@ import (
 	"time"
 )
 
-//Standard returns gadget.Timer that implements timeObject.Standard and formatter.Standard adopting minimum unit as second.
-//Hangul returns gadget.Timer that implements timeObject.Standard and formatter.Hangul adopting minimum unit as second.
-//Detail returns gadget.Timer that implements timeObject.Accurate and formatter.Detail adopting minimum unit as millisecond.
+//Standard returns gadget.Timer that implements timeobject.Standard and formatter.Standard adopting minimum unit as second.
+//Hangul returns gadget.Timer that implements timeobject.Standard and formatter.Hangul adopting minimum unit as second.
+//Detail returns gadget.Timer that implements timeobject.Accurate and formatter.Detail adopting minimum unit as millisecond.
 var (
 	Standard = func(t times.Time) times.Gadget { return New(time.Second, formatter.Standard(), t) }
 	Hangul   = func(t times.Time) times.Gadget { return New(time.Second, formatter.Hangul(), t) }

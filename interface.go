@@ -13,20 +13,6 @@ type Gadget interface {
 	Present() string                                 //Present returns current time.
 }
 
-//Action is an interface that includes function.
-//Action would be used in Actions and times.Gadget.
-type Action interface {
-	Add(func(string)) Action //Add returns action that has current function of this object and parameter function.
-	Do(string)               //Do executes function that current object has.
-}
-
-//Actions is an interface that includes a set of Action.
-//Actions would be used in times.Gadget.
-type Actions interface {
-	Add(Action, Time)        //Add adds Action to Actions in designated time.
-	ActionsWhen(Time) Action //ActionsWhen returns Action in designated time.
-}
-
 //TimeFormatter is an interface that converts Time into string.
 //TimeFormatter is used in times.Gadget for the use of showing times.
 type TimeFormatter interface {

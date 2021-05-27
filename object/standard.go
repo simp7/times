@@ -1,4 +1,4 @@
-package timeobject
+package object
 
 import (
 	"fmt"
@@ -11,9 +11,9 @@ type standard struct {
 	day                  int
 }
 
-//Standard is function that returns the struct that implements times.Time.
+//Standard is function that returns the struct that implements times.Object.
 //Minimum unit of Standard is second.
-func Standard(second, minute, hour, day int) times.Time {
+func Standard(second, minute, hour, day int) times.Object {
 
 	t := new(standard)
 
@@ -26,14 +26,14 @@ func Standard(second, minute, hour, day int) times.Time {
 
 }
 
-// StandardFor is function that gets built-in time.Time object and convert it to times.Time object.
+// StandardFor is function that gets built-in time.Time object and convert it to times.Object object.
 // The other feature of StandardFor is same as Standard.
-func StandardFor(t time.Time) times.Time {
+func StandardFor(t time.Time) times.Object {
 	return Standard(t.Second(), t.Minute(), t.Hour(), t.Day())
 }
 
-//StandardZero is zero value of Time by using Standard.
-func StandardZero() times.Time {
+//StandardZero is zero value of Object by using Standard.
+func StandardZero() times.Object {
 	return Standard(0, 0, 0, 0)
 }
 
@@ -109,15 +109,15 @@ func (t *standard) Day() int {
 	return t.day
 }
 
-func (t *standard) Equal(another times.Time) bool {
+func (t *standard) Equal(another times.Object) bool {
 	return t.Day() == another.Day() && t.Hour() == another.Hour() && t.Minute() == another.Minute() && t.Second() == another.Second() && t.MilliSecond() == another.MilliSecond()
 }
 
-func (t *standard) SetMilliSecond(int) times.Time {
+func (t *standard) SetMilliSecond(int) times.Object {
 	return t
 }
 
-func (t *standard) SetSecond(second int) times.Time {
+func (t *standard) SetSecond(second int) times.Object {
 
 	if second >= 60 || second < 0 {
 		second = 0
@@ -129,7 +129,7 @@ func (t *standard) SetSecond(second int) times.Time {
 
 }
 
-func (t *standard) SetMinute(minute int) times.Time {
+func (t *standard) SetMinute(minute int) times.Object {
 
 	if minute >= 60 || minute < 0 {
 		minute = 0
@@ -141,7 +141,7 @@ func (t *standard) SetMinute(minute int) times.Time {
 
 }
 
-func (t *standard) SetHour(hour int) times.Time {
+func (t *standard) SetHour(hour int) times.Object {
 
 	if hour >= 24 || hour < 0 {
 		hour = 0
@@ -153,7 +153,7 @@ func (t *standard) SetHour(hour int) times.Time {
 
 }
 
-func (t *standard) SetDay(day int) times.Time {
+func (t *standard) SetDay(day int) times.Object {
 
 	if day < 0 {
 		day = 0

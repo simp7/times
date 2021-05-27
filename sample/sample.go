@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/object"
 	"github.com/simp7/times/sample/preset"
-	"github.com/simp7/times/timeobject"
 	"os"
 	"strconv"
 )
@@ -30,7 +30,7 @@ func testTimer1(t times.Gadget) {
 	test1Skeleton(t, func() {
 		t.AddAlarm(func(string) {
 			fmt.Println("Finished!")
-		}, timeobject.StandardZero())
+		}, object.StandardZero())
 	})
 }
 

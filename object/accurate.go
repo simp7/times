@@ -1,4 +1,4 @@
-package timeobject
+package object
 
 import (
 	"fmt"
@@ -7,32 +7,32 @@ import (
 )
 
 type accurate struct {
-	times.Time
+	times.Object
 	ms int
 }
 
-//Accurate is function that returns the struct that implements times.Time.
+//Accurate is function that returns the struct that implements times.Object.
 //Minimum unit of Accurate is second.
-//As Accurate returns the most-accurate times.Time object, It is encouraged to compare other object that implements times.Time with this.
-func Accurate(millisecond, second, minute, hour, day int) times.Time {
+//As Accurate returns the most-accurate times.Object object, It is encouraged to compare other object that implements times.Object with this.
+func Accurate(millisecond, second, minute, hour, day int) times.Object {
 
 	a := new(accurate)
 
-	a.Time = Standard(second, minute, hour, day)
+	a.Object = Standard(second, minute, hour, day)
 	a.SetMilliSecond(millisecond)
 
 	return a
 
 }
 
-// AccurateFor is function that gets built-in time.Time object and convert it to the struct that implements times.Time. object.
+// AccurateFor is function that gets built-in time.Time object and convert it to the struct that implements times.Object. object.
 // The other feature of AccurateFor is same as Accurate.
-func AccurateFor(t time.Time) times.Time {
+func AccurateFor(t time.Time) times.Object {
 	return Accurate(t.Nanosecond()/1000000, t.Second(), t.Minute(), t.Hour(), t.Day())
 }
 
-//AccurateZero is zero value of Time by using Accurate.
-func AccurateZero() times.Time {
+//AccurateZero is zero value of Object by using Accurate.
+func AccurateZero() times.Object {
 	return Accurate(0, 0, 0, 0, 0)
 }
 
@@ -51,13 +51,13 @@ func (t *accurate) trim() {
 
 	if t.MilliSecond() >= 1000 {
 		for i := 0; i < t.MilliSecond()/1000; i++ {
-			t.Time.Tick()
+			t.Object.Tick()
 		}
 		t.ms %= 1000
 	}
 
 	if t.MilliSecond() < 0 {
-		t.Time.Rewind()
+		t.Object.Rewind()
 		t.ms += 1000
 	}
 
@@ -67,11 +67,11 @@ func (t *accurate) MilliSecond() int {
 	return t.ms
 }
 
-func (t *accurate) Equal(another times.Time) bool {
+func (t *accurate) Equal(another times.Object) bool {
 	return t.Day() == another.Day() && t.Hour() == another.Hour() && t.Minute() == another.Minute() && t.Second() == another.Second() && t.MilliSecond() == another.MilliSecond()
 }
 
-func (t *accurate) SetMilliSecond(ms int) times.Time {
+func (t *accurate) SetMilliSecond(ms int) times.Object {
 
 	if t.ms >= 1000 || t.ms < 0 {
 		t.ms = 0
@@ -83,23 +83,23 @@ func (t *accurate) SetMilliSecond(ms int) times.Time {
 
 }
 
-func (t *accurate) SetSecond(second int) times.Time {
-	t.Time.SetSecond(second)
+func (t *accurate) SetSecond(second int) times.Object {
+	t.Object.SetSecond(second)
 	return t
 }
 
-func (t *accurate) SetMinute(minute int) times.Time {
-	t.Time.SetMinute(minute)
+func (t *accurate) SetMinute(minute int) times.Object {
+	t.Object.SetMinute(minute)
 	return t
 }
 
-func (t *accurate) SetHour(hour int) times.Time {
-	t.Time.SetHour(hour)
+func (t *accurate) SetHour(hour int) times.Object {
+	t.Object.SetHour(hour)
 	return t
 }
 
-func (t *accurate) SetDay(day int) times.Time {
-	t.Time.SetDay(day)
+func (t *accurate) SetDay(day int) times.Object {
+	t.Object.SetDay(day)
 	return t
 }
 

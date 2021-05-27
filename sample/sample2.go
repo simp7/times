@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/object"
 	"github.com/simp7/times/sample/preset"
-	"github.com/simp7/times/timeobject"
 	"os"
 	"strconv"
 )
 
-func recursiveCall(gadgets []times.Gadget, a1, a2 times.Time) {
+func recursiveCall(gadgets []times.Gadget, a1, a2 times.Object) {
 
 	if len(gadgets) == 0 {
 		return
@@ -70,10 +70,10 @@ func main() {
 		}
 	}
 
-	alarm1 := timeobject.Standard(second, 0, 0, 0)
-	alarm2 := timeobject.Standard(second*2, 0, 0, 0)
+	alarm1 := object.Standard(second, 0, 0, 0)
+	alarm2 := object.Standard(second*2, 0, 0, 0)
 
 	recursiveCall(changeStopwatchesToGadgets(preset.Stopwatches()), alarm1, alarm2)
-	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, timeobject.StandardZero().SetSecond(0))
+	recursiveCall(changeTimersToGadgets(preset.Timers(second*2)), alarm1, object.StandardZero().SetSecond(0))
 
 }

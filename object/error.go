@@ -1,4 +1,4 @@
-package timeobject
+package object
 
 import "errors"
 

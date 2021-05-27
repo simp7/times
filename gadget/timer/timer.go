@@ -4,16 +4,16 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/gadget"
 	"github.com/simp7/times/gadget/action"
-	"github.com/simp7/times/timeobject"
+	"github.com/simp7/times/object"
 	"sync"
 	"time"
 )
 
 type timer struct {
 	ticker    *gadget.Ticker
-	present   times.Time
-	deadline  times.Time
-	formatter times.TimeFormatter
+	present   times.Object
+	deadline  times.Object
+	formatter times.Formatter
 	unit      time.Duration
 	once      sync.Once
 	isRunning bool
@@ -22,7 +22,7 @@ type timer struct {
 
 //New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
-func New(unit time.Duration, formatter times.TimeFormatter, deadline times.Time) times.Gadget {
+func New(unit time.Duration, formatter times.Formatter, deadline times.Object) times.Gadget {
 
 	t := new(timer)
 
@@ -76,7 +76,7 @@ func (t *timer) Add(f func(string)) {
 	t.actions.Add(action.NewAction(f), nil)
 }
 
-func (t *timer) AddAlarm(f func(string), when times.Time) {
+func (t *timer) AddAlarm(f func(string), when times.Object) {
 	t.actions.Add(action.NewAction(f), when)
 }
 
@@ -84,9 +84,9 @@ func (t *timer) Reset() {
 
 	preset := t.deadline
 	if t.unit == time.Millisecond {
-		t.present = timeobject.AccurateZero()
+		t.present = object.AccurateZero()
 	} else {
-		t.present = timeobject.StandardZero()
+		t.present = object.StandardZero()
 	}
 
 	t.present.SetMilliSecond(preset.MilliSecond()).
@@ -96,19 +96,19 @@ func (t *timer) Reset() {
 		SetDay(preset.Day())
 
 	t.actions = action.NewActions()
-	t.AddAlarm(func(string) { t.Stop() }, timeobject.StandardZero())
+	t.AddAlarm(func(string) { t.Stop() }, object.StandardZero())
 
 }
 
 func (t *timer) resetPresent() {
 
-	var result times.Time
+	var result times.Object
 	preset := t.deadline
 
 	if t.unit == time.Millisecond {
-		result = timeobject.AccurateZero()
+		result = object.AccurateZero()
 	} else {
-		result = timeobject.StandardZero()
+		result = object.StandardZero()
 	}
 
 	result.SetMilliSecond(preset.MilliSecond())

@@ -4,19 +4,19 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/gadget/stopwatch"
 	"github.com/simp7/times/gadget/timer"
-	"github.com/simp7/times/timeObject"
+	"github.com/simp7/times/object"
 )
 
-//GetStandard returns timeObject.Standard object that are set to seconds by parameter sec.
-//Notice: GetStandard is just for sample. We recommend you to use timeObject.Standard function as a substitute.
-func GetStandard(sec int) times.Time {
-	return timeObject.StandardZero().SetSecond(sec)
+//GetStandard returns object.Standard object that are set to seconds by parameter sec.
+//Notice: GetStandard is just for sample. We recommend you to use object.Standard function as a substitute.
+func GetStandard(sec int) times.Object {
+	return object.StandardZero().SetSecond(sec)
 }
 
-//GetAccurate returns timeObject.Accurate object that are set to seconds by parameter sec.
-//Notice: GetAccurate is just for sample. We recommend you to use timeObject.Accurate function as a substitute.
-func GetAccurate(sec int) times.Time {
-	return timeObject.AccurateZero().SetSecond(sec)
+//GetAccurate returns object.Accurate object that are set to seconds by parameter sec.
+//Notice: GetAccurate is just for sample. We recommend you to use object.Accurate function as a substitute.
+func GetAccurate(sec int) times.Object {
+	return object.AccurateZero().SetSecond(sec)
 }
 
 //Stopwatches returns an array of gadget.Stopwatch.

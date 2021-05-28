@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/simp7/times"
-	"github.com/simp7/times/gadget"
+	"github.com/simp7/times/object"
 	"github.com/simp7/times/sample/preset"
-	"github.com/simp7/times/timeObject"
 	"os"
 	"strconv"
 )
@@ -18,7 +17,7 @@ func test1Skeleton(g times.Gadget, someFunc func()) {
 	g.Start()
 }
 
-func testStopwatch1(s gadget.Stopwatch, t int) {
+func testStopwatch1(s times.Gadget, t int) {
 	test1Skeleton(s, func() {
 		s.AddAlarm(func(current string) {
 			fmt.Println("Finished!")
@@ -27,11 +26,11 @@ func testStopwatch1(s gadget.Stopwatch, t int) {
 	})
 }
 
-func testTimer1(t gadget.Timer) {
+func testTimer1(t times.Gadget) {
 	test1Skeleton(t, func() {
 		t.AddAlarm(func(string) {
 			fmt.Println("Finished!")
-		}, timeObject.StandardZero())
+		}, object.StandardZero())
 	})
 }
 

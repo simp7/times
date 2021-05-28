@@ -8,13 +8,13 @@ import (
 type standardFormatter struct {
 }
 
-//Standard returns one of struct that implements times.TimeFormatter.
+//Standard returns one of struct that implements times.Formatter.
 //Standard shows time like 0:00, And It can express time unit from second to day.
-func Standard() times.TimeFormatter {
+func Standard() times.Formatter {
 	return new(standardFormatter)
 }
 
-func (f *standardFormatter) Format(t times.Time) string {
+func (f *standardFormatter) Format(t times.Object) string {
 
 	sec := doubleDigitFormat(t.Second())
 	min := doubleDigitFormat(t.Minute())

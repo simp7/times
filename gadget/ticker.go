@@ -4,14 +4,14 @@ import (
 	"time"
 )
 
+//Ticker is an struct that ticks after fixed duration.
 type Ticker struct {
 	unit      time.Duration
 	stopper   chan struct{}
 	isRunning bool
 }
 
-//NewTicker returns struct that implements gadget.Ticker.
-//Returned Ticker ticks in rate of unit and parameter determines the rate of Ticker.
+//NewTicker returns Ticker that ticks in rate of unit and parameter determines the rate of Ticker.
 func NewTicker(unit time.Duration) *Ticker {
 	t := new(Ticker)
 	t.unit = unit
@@ -19,6 +19,7 @@ func NewTicker(unit time.Duration) *Ticker {
 	return t
 }
 
+//Start makes ticker ticks.
 func (t *Ticker) Start(action func()) {
 
 	if !t.isRunning {
@@ -41,6 +42,7 @@ func (t *Ticker) Start(action func()) {
 
 }
 
+//Stop stops ticker to tick.
 func (t *Ticker) Stop() {
 	if t.isRunning {
 		t.isRunning = false

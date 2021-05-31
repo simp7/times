@@ -12,7 +12,7 @@ import (
 type clock struct {
 	ticker    *gadget.Ticker
 	present   times.Object
-	formatter times.Formatter
+	formatter object.Formatter
 	unit      time.Duration
 	once      sync.Once
 	isRunning bool
@@ -21,7 +21,7 @@ type clock struct {
 
 //New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit time.Duration, formatter times.Formatter) times.Gadget {
+func New(unit time.Duration, formatter object.Formatter) times.Gadget {
 
 	c := new(clock)
 

@@ -3,6 +3,7 @@ package formatter
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/object"
 )
 
 type standardFormatter struct {
@@ -10,7 +11,7 @@ type standardFormatter struct {
 
 //Standard returns one of struct that implements times.Formatter.
 //Standard shows time like 0:00, And It can express time unit from second to day.
-func Standard() times.Formatter {
+func Standard() object.Formatter {
 	return new(standardFormatter)
 }
 

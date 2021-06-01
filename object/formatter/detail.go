@@ -2,6 +2,7 @@ package formatter
 
 import (
 	"github.com/simp7/times"
+	"github.com/simp7/times/object"
 )
 
 type detailFormatter struct {
@@ -10,7 +11,7 @@ type detailFormatter struct {
 
 //Detail returns one of struct that implements times.Formatter.
 //Detail shows time like 0:00:000, And It can express time unit from millisecond to day.
-func Detail() times.Formatter {
+func Detail() object.Formatter {
 	return new(detailFormatter)
 }
 

@@ -3,6 +3,7 @@ package formatter
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/object"
 )
 
 type hangulFormatter struct {
@@ -10,7 +11,7 @@ type hangulFormatter struct {
 
 //Hangul returns one of struct that implements times.Formatter.
 //Hangul shows time like 0분00초, And It can express time unit from seconds to day.
-func Hangul() times.Formatter {
+func Hangul() object.Formatter {
 	return new(hangulFormatter)
 }
 

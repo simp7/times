@@ -3,6 +3,7 @@ package formatter
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/object"
 )
 
 type clockFormatter struct {
@@ -11,7 +12,7 @@ type clockFormatter struct {
 
 //Clock returns one of struct that implements times.Formatter.
 //Clock shows time like 11:23 PM or 23:23, And It is up to notation12 parameter.
-func Clock(notation12 bool) times.Formatter {
+func Clock(notation12 bool) object.Formatter {
 	f := new(clockFormatter)
 	f.notation12 = notation12
 	return f

@@ -13,7 +13,7 @@ type timer struct {
 	ticker    *gadget.Ticker
 	present   times.Object
 	deadline  times.Object
-	formatter times.Formatter
+	formatter object.Formatter
 	unit      time.Duration
 	once      sync.Once
 	isRunning bool
@@ -22,7 +22,7 @@ type timer struct {
 
 //New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate, formatter for formatting time to string, and deadline for deadline of timer.
-func New(unit time.Duration, formatter times.Formatter, deadline times.Object) times.Gadget {
+func New(unit time.Duration, formatter object.Formatter, deadline times.Object) times.Gadget {
 
 	t := new(timer)
 

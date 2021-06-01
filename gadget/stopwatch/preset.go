@@ -9,7 +9,7 @@ import (
 //Hangul returns gadget.Stopwatch that implements object.Standard and formatter.Hangul adopting minimum unit as second.
 //Detail returns gadget.Stopwatch that implements object.Accurate and formatter.Detail adopting minimum unit as millisecond.
 var (
-	Standard = New(time.Second, formatter.Standard())
-	Hangul   = New(time.Second, formatter.Hangul())
-	Detail   = New(time.Millisecond, formatter.Detail())
+	Standard = New(time.Second, formatter.Standard)
+	Hangul   = New(time.Second, formatter.Hangul)
+	Detail   = New(time.Millisecond, formatter.Detail)
 )

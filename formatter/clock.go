@@ -6,27 +6,25 @@ import (
 )
 
 type clockFormatter struct {
-	notation12 bool
 }
 
-//Clock returns one of struct that implements times.Formatter.
+//Clock returns one of struct that implements times.Format.
 //Clock shows time like 11:23 PM or 23:23, And It is up to notation12 parameter.
-func Clock(notation12 bool) times.Formatter {
-	f := new(clockFormatter)
-	f.notation12 = notation12
-	return f
-}
+var Clock = &clockFormatter{}
 
-func (c *clockFormatter) Format(t times.Object) string {
+//Notation12 is a function that returns in form of format with notation of AM/PM of clock.
+func (c *clockFormatter) Notation12(t times.Object) string {
 
 	result := fmt.Sprintf("%s:%s", doubleDigitFormat(t.Minute()), doubleDigitFormat(t.Second()))
+	hour, suffix := decomposeHour(t.Hour())
 
-	if c.notation12 {
-		hour, suffix := decomposeHour(t.Hour())
-		return fmt.Sprintf("%d:%s %s", hour, result, suffix)
-	}
-	return fmt.Sprintf("%d:%s", t.Hour(), result)
+	return fmt.Sprintf("%d:%s %s", hour, result, suffix)
 
+}
+
+//Notation24 is a function that returns in form of format with notation of clock.
+func (c *clockFormatter) Notation24(t times.Object) string {
+	return fmt.Sprintf("%d:%s:%s", t.Hour(), doubleDigitFormat(t.Minute()), doubleDigitFormat(t.Second()))
 }
 
 func decomposeHour(hour int) (result int, suffix string) {

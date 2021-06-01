@@ -8,13 +8,9 @@ import (
 type hangulFormatter struct {
 }
 
-//Hangul returns one of struct that implements times.Formatter.
+//Hangul is a function that implements times.Format.
 //Hangul shows time like 0분00초, And It can express time unit from seconds to day.
-func Hangul() times.Formatter {
-	return new(hangulFormatter)
-}
-
-func (f *hangulFormatter) Format(t times.Object) (result string) {
+func Hangul(t times.Object) (result string) {
 
 	switch {
 	case t.Day() != 0:

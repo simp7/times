@@ -7,5 +7,5 @@ import (
 
 //Standard returns gadget.Clock that implements object.Standard and formatter.Standard adopting minimum unit as second. Its notation would be 12 so AM/PM notation would be added.
 var (
-	Standard = New(time.Second, formatter.Clock(true))
+	Standard = New(time.Second, formatter.Clock.Notation12)
 )

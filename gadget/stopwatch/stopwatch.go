@@ -12,7 +12,7 @@ import (
 type stopwatch struct {
 	ticker    *gadget.Ticker
 	present   times.Object
-	formatter object.Formatter
+	format    times.Format
 	unit      time.Duration
 	once      sync.Once
 	isRunning bool
@@ -20,13 +20,13 @@ type stopwatch struct {
 }
 
 //New returns struct that implements times.Gadget
-//parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit time.Duration, formatter object.Formatter) times.Gadget {
+//parameter unit is for ticking rate and format for formatting time to string.
+func New(unit time.Duration, format times.Format) times.Gadget {
 
 	s := new(stopwatch)
 
 	s.unit = unit
-	s.formatter = formatter
+	s.format = format
 	s.isRunning = false
 
 	s.ticker = gadget.NewTicker(unit)
@@ -99,5 +99,5 @@ func (s *stopwatch) Pause() {
 }
 
 func (s *stopwatch) Present() string {
-	return s.formatter.Format(s.present)
+	return s.format(s.present)
 }

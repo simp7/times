@@ -12,7 +12,7 @@ import (
 type clock struct {
 	ticker    *gadget.Ticker
 	present   times.Object
-	formatter object.Formatter
+	format    times.Format
 	unit      time.Duration
 	once      sync.Once
 	isRunning bool
@@ -20,13 +20,13 @@ type clock struct {
 }
 
 //New returns struct that implements times.Gadget.
-//parameter unit is for ticking rate and formatter for formatting time to string.
-func New(unit time.Duration, formatter object.Formatter) times.Gadget {
+//parameter unit is for ticking rate and format for formatting time to string.
+func New(unit time.Duration, format times.Format) times.Gadget {
 
 	c := new(clock)
 
 	c.unit = unit
-	c.formatter = formatter
+	c.format = format
 	c.isRunning = false
 
 	c.ticker = gadget.NewTicker(unit)
@@ -100,5 +100,5 @@ func (c *clock) Pause() {
 }
 
 func (c *clock) Present() string {
-	return c.formatter.Format(c.present)
+	return c.format(c.present)
 }

@@ -4,25 +4,21 @@ import (
 	"github.com/simp7/times"
 )
 
-type action struct {
-	body func(string)
-}
+type action func(string)
 
 //NewAction capsulize function to action.
 func NewAction(f func(string)) times.Action {
-	var a = action{f}
-	return a
+	return action(f)
 }
 
-func (a action) Add(action func(string)) times.Action {
-	tmp := a.body
-	a.body = func(s string) {
+func (a action) Add(action times.Action) times.Action {
+	tmp := a
+	return NewAction(func(s string) {
 		tmp(s)
-		action(s)
-	}
-	return a
+		action.Do(s)
+	})
 }
 
 func (a action) Do(s string) {
-	a.body(s)
+	a(s)
 }

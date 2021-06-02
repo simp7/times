@@ -2,7 +2,7 @@ package timer
 
 import (
 	"github.com/simp7/times"
-	"github.com/simp7/times/formatter"
+	"github.com/simp7/times/object/formatter"
 	"time"
 )
 

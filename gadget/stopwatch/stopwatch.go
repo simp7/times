@@ -47,8 +47,7 @@ func (s *stopwatch) getAction() times.Action {
 }
 
 func (s *stopwatch) do() {
-	current := s.Present()
-	s.getAction().Do(current)
+	s.getAction().Do(s.present)
 }
 
 func (s *stopwatch) work() {

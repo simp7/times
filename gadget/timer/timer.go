@@ -49,8 +49,7 @@ func (t *timer) getAction() times.Action {
 }
 
 func (t *timer) do() {
-	current := t.Present()
-	t.getAction().Do(current)
+	t.getAction().Do(t.present)
 }
 
 func (t *timer) work() {
@@ -72,12 +71,12 @@ func (t *timer) Stop() string {
 
 }
 
-func (t *timer) Add(f func(string)) {
-	t.actions.Add(action.NewAction(f), nil)
+func (t *timer) Add(action times.Action) {
+	t.actions.Add(action, nil)
 }
 
-func (t *timer) AddAlarm(f func(string), when times.Object) {
-	t.actions.Add(action.NewAction(f), when)
+func (t *timer) AddAlarm(action times.Action, when times.Object) {
+	t.actions.Add(action, when)
 }
 
 func (t *timer) Reset() {
@@ -96,7 +95,7 @@ func (t *timer) Reset() {
 		SetDay(preset.Day())
 
 	t.actions = action.NewActions()
-	t.AddAlarm(func(string) { t.Stop() }, object.StandardZero())
+	t.AddAlarm(action.NewAction(func(times.Object) { t.Stop() }), object.StandardZero())
 
 }
 

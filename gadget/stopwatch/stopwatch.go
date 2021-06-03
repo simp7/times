@@ -70,12 +70,12 @@ func (s *stopwatch) Stop() string {
 
 }
 
-func (s *stopwatch) Add(f func(string)) {
-	s.actions.Add(action.NewAction(f), nil)
+func (s *stopwatch) Add(action times.Action) {
+	s.actions.Add(action, nil)
 }
 
-func (s *stopwatch) AddAlarm(f func(string), when times.Object) {
-	s.actions.Add(action.NewAction(f), when)
+func (s *stopwatch) AddAlarm(action times.Action, when times.Object) {
+	s.actions.Add(action, when)
 }
 
 func (s *stopwatch) Reset() {

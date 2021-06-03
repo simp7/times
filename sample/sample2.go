@@ -3,13 +3,15 @@ package main
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/gadget/action"
 	"github.com/simp7/times/object"
+	"github.com/simp7/times/object/formatter"
 	"github.com/simp7/times/sample/preset"
 	"os"
 	"strconv"
 )
 
-func recursiveCall(gadgets []times.Gadget, a1, a2 times.Object) {
+func recursiveCall(gadgets []times.Gadget, obj1, obj2 times.Object) {
 
 	if len(gadgets) == 0 {
 		return
@@ -17,21 +19,23 @@ func recursiveCall(gadgets []times.Gadget, a1, a2 times.Object) {
 
 	this := gadgets[0]
 
-	this.Add(func(current string) {
-		fmt.Println(current)
+	action1 := action.NewAction(func(o times.Object) {
+		fmt.Println(formatter.Detail(o))
 	})
-
-	this.AddAlarm(func(string) {
+	action2 := action.NewAction(func(times.Object) {
 		fmt.Println("Paused")
 		this.Pause()
-		recursiveCall(gadgets[1:], a1, a2)
+		recursiveCall(gadgets[1:], obj1, obj2)
 		this.Start()
-	}, a1)
-
-	this.AddAlarm(func(string) {
+	})
+	action3 := action.NewAction(func(times.Object) {
 		fmt.Println("Finished!")
 		this.Stop()
-	}, a2)
+	})
+
+	this.Add(action1)
+	this.AddAlarm(action2, obj1)
+	this.AddAlarm(action3, obj2)
 
 	this.Start()
 

@@ -11,4 +11,5 @@ type Gadget interface {
 	Reset()                              //Reset sets Gadget to the state when it firstly initialized.
 	Pause()                              //Pause stops ticker.
 	Present() string                     //Present returns current time.
+	GetFormat() Format                   //GetFormat returns inner format of the Gadget.
 }

@@ -101,3 +101,7 @@ func (c *clock) Pause() {
 func (c *clock) Present() string {
 	return c.format(c.present)
 }
+
+func (c *clock) GetFormat() times.Format {
+	return c.format
+}

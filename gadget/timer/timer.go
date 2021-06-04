@@ -131,3 +131,7 @@ func (t *timer) Pause() {
 func (t *timer) Present() string {
 	return t.format(t.present)
 }
+
+func (t *timer) GetFormat() times.Format {
+	return t.format
+}

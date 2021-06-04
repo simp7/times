@@ -100,3 +100,7 @@ func (s *stopwatch) Pause() {
 func (s *stopwatch) Present() string {
 	return s.format(s.present)
 }
+
+func (s *stopwatch) GetFormat() times.Format {
+	return s.format
+}

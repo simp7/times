@@ -3,34 +3,39 @@ package main
 import (
 	"fmt"
 	"github.com/simp7/times"
+	"github.com/simp7/times/gadget/action"
 	"github.com/simp7/times/object"
+	"github.com/simp7/times/object/formatter"
 	"github.com/simp7/times/sample/preset"
 	"os"
 	"strconv"
 )
 
 func test1Skeleton(g times.Gadget, someFunc func()) {
-	g.Add(func(current string) {
-		fmt.Println(current)
+	a := action.NewAction(func(obj times.Object) {
+		fmt.Println(formatter.Detail(obj))
 	})
+	g.Add(a)
 	someFunc()
 	g.Start()
 }
 
 func testStopwatch1(s times.Gadget, t int) {
 	test1Skeleton(s, func() {
-		s.AddAlarm(func(current string) {
+		a := action.NewAction(func(times.Object) {
 			fmt.Println("Finished!")
 			s.Stop()
-		}, preset.GetStandard(t))
+		})
+		s.AddAlarm(a, preset.GetStandard(t))
 	})
 }
 
 func testTimer1(t times.Gadget) {
 	test1Skeleton(t, func() {
-		t.AddAlarm(func(string) {
+		a := action.NewAction(func(times.Object) {
 			fmt.Println("Finished!")
-		}, object.StandardZero())
+		})
+		t.AddAlarm(a, object.StandardZero())
 	})
 }
 

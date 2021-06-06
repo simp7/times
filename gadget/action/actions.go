@@ -19,7 +19,7 @@ func NewActions() times.Actions {
 
 func (a *actions) Add(action times.Action, time times.Object) {
 	if time == nil {
-		a.alwaysFunction = a.alwaysFunction.Add(action.Do)
+		a.alwaysFunction = a.alwaysFunction.Add(action)
 	} else {
 		a.set(time, action)
 	}
@@ -27,7 +27,7 @@ func (a *actions) Add(action times.Action, time times.Object) {
 
 func (a *actions) ActionsWhen(time times.Object) times.Action {
 	defer a.delete(time)
-	return a.alwaysFunction.Add(a.get(time).Do)
+	return a.alwaysFunction.Add(a.get(time))
 }
 
 func (a *actions) get(time times.Object) times.Action {
@@ -40,7 +40,7 @@ func (a *actions) get(time times.Object) times.Action {
 
 func (a *actions) set(time times.Object, action times.Action) {
 	tmp := a.get(time)
-	a.data[time.Serialize()] = tmp.Add(action.Do)
+	a.data[time.Serialize()] = tmp.Add(action)
 }
 
 func (a *actions) delete(t times.Object) {

@@ -48,8 +48,7 @@ func (c *clock) getAction() times.Action {
 }
 
 func (c *clock) do() {
-	current := c.Present()
-	c.getAction().Do(current)
+	c.getAction().Do(c.present)
 }
 
 func (c *clock) work() {
@@ -70,12 +69,12 @@ func (c *clock) Stop() string {
 
 }
 
-func (c *clock) Add(f func(current string)) {
-	c.actions.Add(action.NewAction(f), nil)
+func (c *clock) Add(action times.Action) {
+	c.actions.Add(action, nil)
 }
 
-func (c *clock) AddAlarm(f func(current string), when times.Object) {
-	c.actions.Add(action.NewAction(f), when)
+func (c *clock) AddAlarm(action times.Action, when times.Object) {
+	c.actions.Add(action, when)
 }
 
 func (c *clock) Reset() {

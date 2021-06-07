@@ -7,8 +7,8 @@ type Gadget interface {
 	Add(action Action)                   //Add adds function that would be called when duration of minimum unit has passed. Parameter current in function is string-conversion of current time that inner function can uses.
 	AddAlarm(action Action, when Object) //AddAlarm adds function that would be called when Gadget reaches in selected time. Parameter current in function is string-conversion of current time that inner function can uses.
 	Start()                              //Start runs Gadget.
-	Stop() string                        //Stop calls Pause and Reset. It also returns string as current.
+	Stop() Object                        //Stop calls Pause and Reset. It also returns string as current.
 	Reset()                              //Reset sets Gadget to the state when it firstly initialized.
 	Pause()                              //Pause stops ticker.
-	Present() string                     //Present returns current time.
+	Format(Object) string                //Format returns inner format of the Gadget.
 }

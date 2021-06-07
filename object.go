@@ -17,5 +17,4 @@ type Object interface {
 	SetHour(int) Object        //SetHour sets millisecond of this object. This function also returns object itself.
 	SetDay(int) Object         //SetDay sets millisecond of this object. This function also returns object itself.
 	Serialize() string         //Serialize returns time data by string. This function is used for specifying time.
-	String() string            //String gets string of the Object.
 }

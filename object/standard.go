@@ -9,7 +9,6 @@ import (
 type standard struct {
 	second, minute, hour int8
 	day                  int
-	formatter            Formatter
 }
 
 //Standard is function that returns the struct that implements times.Object.
@@ -168,8 +167,4 @@ func (t *standard) SetDay(day int) times.Object {
 
 func (t *standard) Serialize() string {
 	return fmt.Sprintf("%d/%d/%d/%d/%d", t.Day(), t.Hour(), t.Minute(), t.Second(), t.MilliSecond())
-}
-
-func (t *standard) String() string {
-	return t.formatter.Format(t)
 }

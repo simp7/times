@@ -5,7 +5,6 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/gadget/action"
 	"github.com/simp7/times/object"
-	"github.com/simp7/times/object/formatter"
 	"github.com/simp7/times/sample/preset"
 	"os"
 	"strconv"
@@ -20,7 +19,7 @@ func recursiveCall(gadgets []times.Gadget, obj1, obj2 times.Object) {
 	this := gadgets[0]
 
 	action1 := action.NewAction(func(o times.Object) {
-		fmt.Println(formatter.Detail(o))
+		fmt.Println(this.Format(o))
 	})
 	action2 := action.NewAction(func(times.Object) {
 		fmt.Println("Paused")

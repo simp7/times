@@ -5,7 +5,6 @@ import (
 	"github.com/simp7/times"
 	"github.com/simp7/times/gadget/action"
 	"github.com/simp7/times/object"
-	"github.com/simp7/times/object/formatter"
 	"github.com/simp7/times/sample/preset"
 	"os"
 	"strconv"
@@ -13,7 +12,7 @@ import (
 
 func test1Skeleton(g times.Gadget, someFunc func()) {
 	a := action.NewAction(func(obj times.Object) {
-		fmt.Println(formatter.Detail(obj))
+		fmt.Println(g.Format(obj))
 	})
 	g.Add(a)
 	someFunc()

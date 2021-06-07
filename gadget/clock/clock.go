@@ -21,7 +21,7 @@ type clock struct {
 
 //New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate and format for formatting time to string.
-func New(unit time.Duration, format times.Format) times.Gadget {
+func New(unit time.Duration, format times.Format) *clock {
 
 	c := new(clock)
 
@@ -58,9 +58,9 @@ func (c *clock) work() {
 	})
 }
 
-func (c *clock) Stop() string {
+func (c *clock) Stop() times.Object {
 
-	result := c.Present()
+	result := c.present
 
 	c.Pause()
 	c.Reset()
@@ -98,6 +98,6 @@ func (c *clock) Pause() {
 	}
 }
 
-func (c *clock) Present() string {
-	return c.format(c.present)
+func (c *clock) Format(obj times.Object) string {
+	return c.format(obj)
 }

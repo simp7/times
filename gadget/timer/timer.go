@@ -22,7 +22,7 @@ type timer struct {
 
 //New returns struct that implements times.Gadget.
 //parameter unit is for ticking rate, format for formatting time to string, and deadline for deadline of timer.
-func New(unit time.Duration, format times.Format, deadline times.Object) times.Gadget {
+func New(unit time.Duration, format times.Format, deadline times.Object) *timer {
 
 	t := new(timer)
 
@@ -60,9 +60,9 @@ func (t *timer) work() {
 	})
 }
 
-func (t *timer) Stop() string {
+func (t *timer) Stop() times.Object {
 
-	result := t.Present()
+	result := t.present
 
 	t.Pause()
 	t.Reset()
@@ -128,6 +128,6 @@ func (t *timer) Pause() {
 	}
 }
 
-func (t *timer) Present() string {
-	return t.format(t.present)
+func (t *timer) Format(obj times.Object) string {
+	return t.format(obj)
 }

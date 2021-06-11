@@ -1,15 +1,15 @@
 package stopwatch
 
 import (
-	"github.com/simp7/times/object/formatter"
+	"github.com/simp7/times/format"
 	"time"
 )
 
-//Standard returns gadget.Stopwatch that implements object.Standard and formatter.Standard adopting minimum unit as second.
-//Hangul returns gadget.Stopwatch that implements object.Standard and formatter.Hangul adopting minimum unit as second.
-//Detail returns gadget.Stopwatch that implements object.Accurate and formatter.Detail adopting minimum unit as millisecond.
+//Standard returns gadget.Stopwatch that implements object.Standard and format.Standard adopting minimum unit as second.
+//Hangul returns gadget.Stopwatch that implements object.Standard and format.Hangul adopting minimum unit as second.
+//Detail returns gadget.Stopwatch that implements object.Accurate and format.Detail adopting minimum unit as millisecond.
 var (
-	Standard = New(time.Second, formatter.Standard)
-	Hangul   = New(time.Second, formatter.Hangul)
-	Detail   = New(time.Millisecond, formatter.Detail)
+	Standard = New(time.Second, format.Standard)
+	Hangul   = New(time.Second, format.Hangul)
+	Detail   = New(time.Millisecond, format.Detail)
 )
